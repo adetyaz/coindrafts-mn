@@ -1,0 +1,68 @@
+<svg width="100%" viewBox="0 0 720 620" role="img" xmlns="http://www.w3.org/2000/svg" font-family="Archivo, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <title>CoinDraft user flow</title>
+  <desc>From landing page and wallet connect through mode choice, draft, the live race, resolution and claiming an on-chain badge.</desc>
+  <defs>
+    <marker id="flow-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#5C6B66" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="720" height="620" fill="#F5FAFA"/>
+
+  <rect x="240" y="34" width="240" height="52" rx="12" fill="#FFFFFF" stroke="#E1E8E6"/>
+  <text x="360" y="56" font-size="13" font-weight="800" fill="#1A2421" text-anchor="middle">Landing page</text>
+  <text x="360" y="73" font-size="11" fill="#5C6B66" text-anchor="middle">real player + contest counts</text>
+  <line x1="360" y1="86" x2="360" y2="108" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#flow-arrow)"/>
+
+  <rect x="240" y="110" width="240" height="52" rx="12" fill="#FFFFFF" stroke="#E1E8E6"/>
+  <text x="360" y="132" font-size="13" font-weight="800" fill="#1A2421" text-anchor="middle">Connect wallet</text>
+  <text x="360" y="149" font-size="11" fill="#5C6B66" text-anchor="middle">SIWE (EVM) or ed25519 (Solana)</text>
+  <line x1="360" y1="162" x2="360" y2="184" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#flow-arrow)"/>
+
+  <rect x="240" y="186" width="240" height="52" rx="12" fill="#FFFFFF" stroke="#E1E8E6"/>
+  <text x="360" y="208" font-size="13" font-weight="800" fill="#1A2421" text-anchor="middle">Dashboard</text>
+  <text x="360" y="225" font-size="11" fill="#5C6B66" text-anchor="middle">sectors · whale flow · daily Gauntlet</text>
+
+  <!-- three modes -->
+  <line x1="360" y1="238" x2="360" y2="254" stroke="#5C6B66" stroke-width="1.6"/>
+  <line x1="140" y1="254" x2="580" y2="254" stroke="#5C6B66" stroke-width="1.6"/>
+  <line x1="140" y1="254" x2="140" y2="278" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#flow-arrow)"/>
+  <line x1="360" y1="254" x2="360" y2="278" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#flow-arrow)"/>
+  <line x1="580" y1="254" x2="580" y2="278" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#flow-arrow)"/>
+
+  <rect x="52" y="280" width="176" height="50" rx="12" fill="#FFFFFF" stroke="#68C2A8"/>
+  <text x="140" y="301" font-size="12.5" font-weight="800" fill="#1F7A63" text-anchor="middle">Scrimmage</text>
+  <text x="140" y="318" font-size="10.5" fill="#5C6B66" text-anchor="middle">bot opponent, no stakes</text>
+
+  <rect x="272" y="280" width="176" height="50" rx="12" fill="#FFFFFF" stroke="#F78E79"/>
+  <text x="360" y="301" font-size="12.5" font-weight="800" fill="#B04A32" text-anchor="middle">Single Match</text>
+  <text x="360" y="318" font-size="10.5" fill="#5C6B66" text-anchor="middle">real opponent · optional wager</text>
+
+  <rect x="492" y="280" width="176" height="50" rx="12" fill="#FFFFFF" stroke="#5FA8D8"/>
+  <text x="580" y="301" font-size="12.5" font-weight="800" fill="#2A6E96" text-anchor="middle">Tournament</text>
+  <text x="580" y="318" font-size="10.5" fill="#5C6B66" text-anchor="middle">bracket · public or invite-only</text>
+
+  <line x1="140" y1="330" x2="140" y2="348" stroke="#5C6B66" stroke-width="1.6"/>
+  <line x1="580" y1="330" x2="580" y2="348" stroke="#5C6B66" stroke-width="1.6"/>
+  <line x1="140" y1="348" x2="580" y2="348" stroke="#5C6B66" stroke-width="1.6"/>
+  <line x1="360" y1="330" x2="360" y2="372" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#flow-arrow)"/>
+
+  <rect x="240" y="374" width="240" height="52" rx="12" fill="#FFFFFF" stroke="#E1E8E6"/>
+  <text x="360" y="396" font-size="13" font-weight="800" fill="#1A2421" text-anchor="middle">Draft 5 tokens</text>
+  <text x="360" y="413" font-size="11" fill="#5C6B66" text-anchor="middle">one per sector · AI agent optional</text>
+  <line x1="360" y1="426" x2="360" y2="448" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#flow-arrow)"/>
+
+  <rect x="216" y="450" width="288" height="52" rx="12" fill="#FFFFFF" stroke="#F7C978"/>
+  <text x="360" y="472" font-size="13" font-weight="800" fill="#8A5B12" text-anchor="middle">Both sides locked → clock starts</text>
+  <text x="360" y="489" font-size="11" fill="#5C6B66" text-anchor="middle">never earlier — nobody loses draft time</text>
+  <line x1="360" y1="502" x2="360" y2="524" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#flow-arrow)"/>
+
+  <rect x="240" y="526" width="240" height="46" rx="12" fill="#FFFFFF" stroke="#E1E8E6"/>
+  <text x="360" y="546" font-size="13" font-weight="800" fill="#1A2421" text-anchor="middle">Live race → auto-resolve</text>
+  <text x="360" y="562" font-size="11" fill="#5C6B66" text-anchor="middle">result + AI summary (0G Compute)</text>
+
+  <line x1="480" y1="549" x2="524" y2="549" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#flow-arrow)"/>
+  <rect x="526" y="524" width="164" height="50" rx="12" fill="#1A2421"/>
+  <text x="608" y="545" font-size="12.5" font-weight="800" fill="#F78E79" text-anchor="middle">Claim badge</text>
+  <text x="608" y="562" font-size="10.5" fill="#9DAEA8" text-anchor="middle">your wallet · 0G Chain</text>
+</svg>

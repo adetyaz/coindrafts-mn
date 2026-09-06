@@ -1,0 +1,141 @@
+<svg width="100%" viewBox="0 0 1060 900" role="img" xmlns="http://www.w3.org/2000/svg" font-family="Archivo, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <title>Container diagram for CoinDraft</title>
+  <desc>C4 container diagram: the player, CoinDraft's single-page app, API routes and database, and the external wallet, market data and 0G systems, with every relationship labelled by intent and protocol.</desc>
+  <defs>
+    <marker id="c4a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#5C6B66" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="c4c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#B04A32" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1060" height="900" fill="#F5FAFA"/>
+
+  <text x="40" y="34" font-size="17" font-weight="900" fill="#1A2421">Container diagram for CoinDraft</text>
+  <text x="40" y="55" font-size="12.5" fill="#5C6B66">Level 2 — the containers inside the system, and every system it talks to.</text>
+
+  <!-- Person -->
+  <rect x="40" y="80" width="200" height="76" rx="38" fill="#4B5B56"/>
+  <text x="140" y="108" font-size="13.5" font-weight="800" fill="#FFFFFF" text-anchor="middle">Player</text>
+  <text x="140" y="126" font-size="10.5" fill="#D3DEDA" text-anchor="middle">[Person]</text>
+  <text x="140" y="143" font-size="10.5" fill="#D3DEDA" text-anchor="middle">Drafts lineups and competes</text>
+
+  <!-- System boundary -->
+  <rect x="40" y="200" width="430" height="580" rx="16" fill="none" stroke="#9AAAA5" stroke-width="1.5" stroke-dasharray="7 5"/>
+  <text x="52" y="222" font-size="11" font-weight="700" letter-spacing="1.2" fill="#5C6B66">COINDRAFT [SOFTWARE SYSTEM]</text>
+
+  <!-- Container: SPA -->
+  <rect x="66" y="238" width="378" height="104" rx="10" fill="#5FA8D8"/>
+  <text x="86" y="266" font-size="13.5" font-weight="800" fill="#FFFFFF">Single-Page App</text>
+  <text x="86" y="284" font-size="10.5" fill="#E4F1FA">[Container: SvelteKit 5, client-rendered]</text>
+  <text x="86" y="306" font-size="11" fill="#F0F7FC">Draft board, live race chart, dashboard.</text>
+  <text x="86" y="323" font-size="11" fill="#F0F7FC">Holds no state of its own.</text>
+
+  <!-- Container: API -->
+  <rect x="66" y="410" width="378" height="118" rx="10" fill="#5FA8D8"/>
+  <text x="86" y="438" font-size="13.5" font-weight="800" fill="#FFFFFF">API Routes</text>
+  <text x="86" y="456" font-size="10.5" fill="#E4F1FA">[Container: SvelteKit +server.ts on Vercel]</text>
+  <text x="86" y="478" font-size="11" fill="#F0F7FC">Auth, drafting, matchmaking, scoring,</text>
+  <text x="86" y="495" font-size="11" fill="#F0F7FC">settlement. Signs badge vouchers.</text>
+  <text x="86" y="512" font-size="11" fill="#F0F7FC">Resolution runs on any request + daily cron.</text>
+
+  <!-- Container: DB -->
+  <rect x="66" y="596" width="378" height="104" rx="10" fill="#3E8CC0"/>
+  <text x="86" y="624" font-size="13.5" font-weight="800" fill="#FFFFFF">Game Database</text>
+  <text x="86" y="642" font-size="10.5" fill="#E4F1FA">[Container: PostgreSQL on Supabase, Drizzle]</text>
+  <text x="86" y="664" font-size="11" fill="#F0F7FC">Users, contests, lineups, lobbies,</text>
+  <text x="86" y="681" font-size="11" fill="#F0F7FC">tournaments, stakes, quiz pool.</text>
+
+  <!-- External systems -->
+  <rect x="640" y="212" width="380" height="86" rx="10" fill="#8A9A95"/>
+  <text x="660" y="240" font-size="13" font-weight="800" fill="#FFFFFF">Wallet</text>
+  <text x="660" y="258" font-size="10.5" fill="#E8EDEB">[Software System: MetaMask / Phantom via Reown AppKit]</text>
+  <text x="660" y="279" font-size="11" fill="#F2F5F4">Holds the player's keys. Signs everything.</text>
+
+  <rect x="640" y="330" width="380" height="98" rx="10" fill="#1A2421" stroke="#F78E79" stroke-width="1.5"/>
+  <text x="660" y="358" font-size="13" font-weight="800" fill="#F78E79">0G Chain</text>
+  <text x="660" y="376" font-size="10.5" fill="#9DAEA8">[Software System: CoinDraftAchievements, soulbound ERC-721]</text>
+  <text x="660" y="397" font-size="11" fill="#C2D0CB">Verifies the voucher signature on-chain,</text>
+  <text x="660" y="414" font-size="11" fill="#C2D0CB">then mints the badge to the caller.</text>
+
+  <rect x="640" y="470" width="380" height="86" rx="10" fill="#8A9A95"/>
+  <text x="660" y="498" font-size="13" font-weight="800" fill="#FFFFFF">Market Data</text>
+  <text x="660" y="516" font-size="10.5" fill="#E8EDEB">[Software System: Binance, SoSoValue]</text>
+  <text x="660" y="537" font-size="11" fill="#F2F5F4">Prices, sector performance, ETF flow, news.</text>
+
+  <rect x="640" y="588" width="380" height="86" rx="10" fill="#1A2421" stroke="#F78E79" stroke-width="1.5"/>
+  <text x="660" y="616" font-size="13" font-weight="800" fill="#F78E79">0G Compute</text>
+  <text x="660" y="634" font-size="10.5" fill="#9DAEA8">[Software System: 0G Compute Router, qwen2.5-omni]</text>
+  <text x="660" y="655" font-size="11" fill="#C2D0CB">Mentor, draft agent, summaries, daily quiz.</text>
+
+  <rect x="640" y="706" width="380" height="86" rx="10" fill="#1A2421" stroke="#F78E79" stroke-width="1.5"/>
+  <text x="660" y="734" font-size="13" font-weight="800" fill="#F78E79">0G Storage</text>
+  <text x="660" y="752" font-size="10.5" fill="#9DAEA8">[Software System: 0G Storage indexer + flow contract]</text>
+  <text x="660" y="773" font-size="11" fill="#C2D0CB">Permanent copy of each generated quiz batch.</text>
+
+  <!-- Relationships -->
+  <line x1="140" y1="156" x2="140" y2="236" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#c4a)"/>
+  <text x="152" y="182" font-size="10.5" font-weight="700" fill="#3B4A45">Plays the game</text>
+  <text x="152" y="196" font-size="10" fill="#5C6B66">[HTTPS]</text>
+
+  <line x1="255" y1="342" x2="255" y2="408" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#c4a)"/>
+  <text x="267" y="366" font-size="10.5" font-weight="700" fill="#3B4A45">Reads and writes game state</text>
+  <text x="267" y="380" font-size="10" fill="#5C6B66">[JSON over HTTPS]</text>
+
+  <line x1="255" y1="528" x2="255" y2="594" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#c4a)"/>
+  <text x="267" y="552" font-size="10.5" font-weight="700" fill="#3B4A45">Reads and writes</text>
+  <text x="267" y="566" font-size="10" fill="#5C6B66">[SQL over TCP, Drizzle]</text>
+
+  <!-- SPA → Wallet -->
+  <path d="M444 262 L638 255" fill="none" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#c4a)"/>
+  <text x="470" y="240" font-size="10.5" font-weight="700" fill="#3B4A45">Asks to sign</text>
+  <text x="470" y="254" font-size="10" fill="#5C6B66">[EIP-1193]</text>
+
+  <!-- SPA → 0G Chain (the distinctive path) -->
+  <path d="M444 312 L556 312 L556 379 L638 379" fill="none" stroke="#B04A32" stroke-width="2" marker-end="url(#c4c)"/>
+  <text x="470" y="332" font-size="10.5" font-weight="700" fill="#B04A32">Submits the claim itself, user-signed</text>
+  <text x="470" y="346" font-size="10" fill="#B04A32">[JSON-RPC — never via the server]</text>
+
+  <!-- API → SPA (voucher back) -->
+  <path d="M420 408 L420 344" fill="none" stroke="#B04A32" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#c4c)"/>
+  <text x="330" y="372" font-size="10.5" font-weight="700" fill="#B04A32" text-anchor="end">Returns signed voucher</text>
+  <text x="330" y="386" font-size="10" fill="#B04A32" text-anchor="end">[ECDSA, off-chain]</text>
+
+  <!-- API → Market -->
+  <path d="M444 448 L580 448 L580 513 L638 513" fill="none" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#c4a)"/>
+  <text x="470" y="440" font-size="10.5" font-weight="700" fill="#3B4A45">Fetches prices and news</text>
+  <text x="470" y="454" font-size="10" fill="#5C6B66">[REST/HTTPS, one batch call]</text>
+
+  <!-- API → Compute -->
+  <path d="M444 490 L536 490 L536 631 L638 631" fill="none" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#c4a)"/>
+  <text x="470" y="482" font-size="10.5" font-weight="700" fill="#3B4A45">Requests inference</text>
+  <text x="470" y="496" font-size="10" fill="#5C6B66">[OpenAI-compatible REST]</text>
+
+  <!-- API → Storage (async) -->
+  <path d="M444 520 L500 520 L500 749 L638 749" fill="none" stroke="#5C6B66" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#c4a)"/>
+  <text x="470" y="700" font-size="10.5" font-weight="700" fill="#3B4A45">Uploads quiz batch</text>
+  <text x="470" y="714" font-size="10" fill="#5C6B66">[0G SDK — background]</text>
+
+  <!-- Legend -->
+  <rect x="40" y="800" width="980" height="76" rx="12" fill="#FFFFFF" stroke="#E1E8E6"/>
+  <text x="58" y="822" font-size="10.5" font-weight="700" letter-spacing="1.2" fill="#5C6B66">KEY</text>
+
+  <rect x="58" y="836" width="26" height="18" rx="9" fill="#4B5B56"/>
+  <text x="92" y="850" font-size="11" fill="#3B4A45">Person</text>
+
+  <rect x="150" y="836" width="26" height="18" rx="4" fill="#5FA8D8"/>
+  <text x="184" y="850" font-size="11" fill="#3B4A45">Container (inside CoinDraft)</text>
+
+  <rect x="360" y="836" width="26" height="18" rx="4" fill="#8A9A95"/>
+  <text x="394" y="850" font-size="11" fill="#3B4A45">External system</text>
+
+  <rect x="516" y="836" width="26" height="18" rx="4" fill="#1A2421" stroke="#F78E79"/>
+  <text x="550" y="850" font-size="11" fill="#3B4A45">0G system</text>
+
+  <line x1="646" y1="845" x2="686" y2="845" stroke="#5C6B66" stroke-width="1.6" marker-end="url(#c4a)"/>
+  <text x="694" y="850" font-size="11" fill="#3B4A45">Synchronous request</text>
+
+  <line x1="830" y1="845" x2="870" y2="845" stroke="#5C6B66" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#c4a)"/>
+  <text x="878" y="850" font-size="11" fill="#3B4A45">Background / async</text>
+</svg>

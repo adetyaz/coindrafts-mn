@@ -1,0 +1,483 @@
+<!doctype html>
+
+<html class="light" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<title>Live Contest | SoSoValue</title>
+		<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Work+Sans:wght@500&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<script id="tailwind-config">
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {
+						colors: {
+							'on-primary': '#ffffff',
+							'negative-main': '#993C1D',
+							'negative-light': '#FAECE7',
+							background: '#fcf8ff',
+							'positive-main': '#0F6E56',
+							'error-container': '#ffdad6',
+							primary: '#3b309e',
+							'page-bg': '#F8F8F7',
+							'primary-fixed': '#e3dfff',
+							'tertiary-container': '#8a4900',
+							'on-secondary': '#ffffff',
+							'inverse-primary': '#c5c0ff',
+							'surface-variant': '#e5e1eb',
+							'on-secondary-fixed-variant': '#454653',
+							'primary-fixed-dim': '#c5c0ff',
+							'on-surface-variant': '#474553',
+							'on-secondary-fixed': '#191b26',
+							'sector-l1': '#0F6E56',
+							'surface-container-high': '#ebe6f0',
+							'primary-container': '#534ab7',
+							'tertiary-fixed-dim': '#ffb77d',
+							'surface-tint': '#584fbc',
+							'on-surface': '#1c1b22',
+							'sector-l2': '#3B82F6',
+							'on-tertiary': '#ffffff',
+							'border-default': 'rgba(0, 0, 0, 0.05)',
+							'secondary-container': '#e2e1f2',
+							'outline-variant': '#c8c4d5',
+							error: '#ba1a1a',
+							'sector-meme': '#993C1D',
+							secondary: '#5d5d6b',
+							'on-primary-container': '#d1ccff',
+							'on-tertiary-container': '#ffc69a',
+							'on-tertiary-fixed': '#2f1500',
+							'sector-wildcard': '#D97706',
+							'surface-card': '#FFFFFF',
+							'positive-light': '#E1F5EE',
+							'surface-container-low': '#f6f2fc',
+							tertiary: '#683500',
+							'on-error-container': '#93000a',
+							'on-background': '#1c1b22',
+							'neutral-muted': '#888780',
+							'inverse-surface': '#312f37',
+							'on-error': '#ffffff',
+							'surface-bright': '#fcf8ff',
+							'on-primary-fixed': '#140067',
+							'sector-defi': '#534AB7',
+							'on-primary-fixed-variant': '#3f35a3',
+							outline: '#787584',
+							'secondary-fixed-dim': '#c5c5d5',
+							'surface-container-highest': '#e5e1eb',
+							'inverse-on-surface': '#f3eff9',
+							'on-tertiary-fixed-variant': '#6e3900',
+							'secondary-fixed': '#e2e1f2',
+							'surface-dim': '#dcd8e2',
+							'on-secondary-container': '#636371',
+							'surface-container-lowest': '#ffffff',
+							'surface-container': '#f0ecf6',
+							surface: '#fcf8ff'
+						},
+						borderRadius: {
+							DEFAULT: '0.25rem',
+							lg: '0.5rem',
+							xl: '0.75rem',
+							full: '9999px'
+						}
+					}
+				}
+			};
+		</script>
+		<style>
+			body {
+				font-family: 'Inter', sans-serif;
+			}
+			.font-h1,
+			.font-h2 {
+				font-family: 'Work Sans', sans-serif;
+			}
+			.material-symbols-outlined {
+				font-variation-settings:
+					'FILL' 0,
+					'wght' 400,
+					'GRAD' 0,
+					'opsz' 24;
+				display: inline-block;
+				line-height: 1;
+				text-transform: none;
+				letter-spacing: normal;
+				word-wrap: normal;
+				white-space: nowrap;
+				direction: ltr;
+			}
+			.data-row:hover {
+				background-color: #f6f2fc;
+			}
+		</style>
+	</head>
+	<body class="bg-page-bg text-on-background min-h-screen">
+		<!-- Minimal Header for Focused View -->
+		<header
+			class="bg-surface-card border-border-default sticky top-0 z-50 flex h-[44px] items-center justify-between border-b px-4"
+		>
+			<div class="flex items-center gap-3">
+				<button
+					class="hover:bg-surface-container flex items-center justify-center rounded-lg p-1 transition-colors"
+				>
+					<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+				</button>
+				<h1 class="font-h2 text-on-surface text-[16px]">Daily Contest: Live Performance</h1>
+			</div>
+			<div class="flex items-center gap-2">
+				<div
+					class="bg-negative-light text-negative-main flex items-center rounded-full px-2 py-0.5"
+				>
+					<span class="material-symbols-outlined mr-1 text-[14px]">timer</span>
+					<span class="text-micro-label font-medium tracking-wider uppercase">04:12:45 Left</span>
+				</div>
+			</div>
+		</header>
+		<main class="p-page-padding gap-card-gap mx-auto flex max-w-[960px] flex-col">
+			<!-- Score Bar Section -->
+			<section class="bg-surface-card border-border-default rounded-xl border p-4 shadow-sm">
+				<div class="mb-4 flex items-end justify-between">
+					<div class="flex flex-col gap-1">
+						<span class="text-card-label text-secondary uppercase">You (Teal)</span>
+						<span class="font-h1 text-positive-main text-[32px] leading-none"
+							>1,240 <span class="text-neutral-muted text-[14px] font-normal">pts</span></span
+						>
+					</div>
+					<div class="flex flex-col items-center">
+						<span
+							class="bg-primary-fixed text-on-primary-fixed-variant text-micro-label mb-2 rounded-full px-3 py-1 font-bold"
+							>LIVE VS</span
+						>
+					</div>
+					<div class="flex flex-col items-end gap-1">
+						<span class="text-card-label text-secondary text-right uppercase">Opponent (Gray)</span>
+						<span class="font-h1 text-secondary text-[32px] leading-none"
+							>1,115 <span class="text-neutral-muted text-[14px] font-normal">pts</span></span
+						>
+					</div>
+				</div>
+				<!-- Progress Bar Visualization -->
+				<div class="bg-surface-container relative flex h-3 w-full overflow-hidden rounded-full">
+					<div class="bg-positive-main h-full" style="width: 53%"></div>
+					<div class="bg-secondary h-full opacity-30" style="width: 47%"></div>
+					<!-- Middle indicator -->
+					<div class="bg-surface-card absolute top-0 bottom-0 left-1/2 w-0.5 shadow-sm"></div>
+				</div>
+				<div class="mt-2 flex justify-between">
+					<span class="text-secondary-info text-positive-main font-medium">+12.5% Performance</span>
+					<span class="text-secondary-info text-negative-main font-medium">-2.4% Performance</span>
+				</div>
+			</section>
+			<!-- Live Picks Table -->
+			<section
+				class="bg-surface-card border-border-default overflow-hidden rounded-xl border shadow-sm"
+			>
+				<div class="border-border-default flex items-center justify-between border-b p-4">
+					<h2 class="font-h2 text-on-surface">Your Live Picks</h2>
+					<div class="flex items-center gap-2">
+						<span class="bg-positive-main flex h-2 w-2 animate-pulse rounded-full"></span>
+						<span class="text-secondary-info text-neutral-muted">Syncing with SoSoValue feeds</span>
+					</div>
+				</div>
+				<div class="overflow-x-auto">
+					<table class="w-full border-collapse text-left">
+						<thead class="bg-surface-container-low">
+							<tr>
+								<th class="text-card-label text-secondary p-3 font-medium uppercase">Sector</th>
+								<th class="text-card-label text-secondary p-3 font-medium uppercase">Token</th>
+								<th class="text-card-label text-secondary p-3 text-right font-medium uppercase">
+									Entry
+								</th>
+								<th class="text-card-label text-secondary p-3 text-right font-medium uppercase">
+									Current
+								</th>
+								<th class="text-card-label text-secondary p-3 text-right font-medium uppercase">
+									% Change
+								</th>
+								<th class="text-card-label text-secondary p-3 text-right font-medium uppercase">
+									Live Score
+								</th>
+							</tr>
+						</thead>
+						<tbody class="divide-border-default divide-y">
+							<tr class="data-row transition-colors">
+								<td class="p-3">
+									<span
+										class="bg-positive-light text-sector-l1 text-micro-label rounded-full px-2 py-0.5 font-bold uppercase"
+										>L1</span
+									>
+								</td>
+								<td class="p-3">
+									<div class="flex items-center gap-2">
+										<div
+											class="bg-surface-dim flex h-6 w-6 items-center justify-center rounded-full"
+										>
+											<span class="text-[10px] font-bold">SOL</span>
+										</div>
+										<span class="text-token-symbol text-on-surface">Solana</span>
+									</div>
+								</td>
+								<td class="text-secondary-info text-on-surface p-3 text-right">$142.45</td>
+								<td class="text-secondary-info text-on-surface p-3 text-right font-medium">
+									$160.22
+								</td>
+								<td class="p-3 text-right">
+									<span class="text-positive-main font-medium">+12.4%</span>
+								</td>
+								<td class="p-3 text-right">
+									<span class="text-positive-main font-bold">420 pts</span>
+								</td>
+							</tr>
+							<tr class="data-row transition-colors">
+								<td class="p-3">
+									<span
+										class="bg-negative-light text-sector-meme text-micro-label rounded-full px-2 py-0.5 font-bold uppercase"
+										>Meme</span
+									>
+								</td>
+								<td class="p-3">
+									<div class="flex items-center gap-2">
+										<div
+											class="bg-surface-dim flex h-6 w-6 items-center justify-center rounded-full"
+										>
+											<span class="text-[10px] font-bold">PEPE</span>
+										</div>
+										<span class="text-token-symbol text-on-surface">Pepe</span>
+									</div>
+								</td>
+								<td class="text-secondary-info text-on-surface p-3 text-right">$0.000008</td>
+								<td class="text-secondary-info text-on-surface p-3 text-right font-medium">
+									$0.000007
+								</td>
+								<td class="p-3 text-right">
+									<span class="text-negative-main font-medium">-4.2%</span>
+								</td>
+								<td class="p-3 text-right">
+									<span class="text-negative-main font-bold">-85 pts</span>
+								</td>
+							</tr>
+							<tr class="data-row transition-colors">
+								<td class="p-3">
+									<span
+										class="bg-secondary-container text-sector-defi text-micro-label rounded-full px-2 py-0.5 font-bold uppercase"
+										>DeFi</span
+									>
+								</td>
+								<td class="p-3">
+									<div class="flex items-center gap-2">
+										<div
+											class="bg-surface-dim flex h-6 w-6 items-center justify-center rounded-full"
+										>
+											<span class="text-[10px] font-bold">UNI</span>
+										</div>
+										<span class="text-token-symbol text-on-surface">Uniswap</span>
+									</div>
+								</td>
+								<td class="text-secondary-info text-on-surface p-3 text-right">$7.12</td>
+								<td class="text-secondary-info text-on-surface p-3 text-right font-medium">
+									$7.85
+								</td>
+								<td class="p-3 text-right">
+									<span class="text-positive-main font-medium">+10.2%</span>
+								</td>
+								<td class="p-3 text-right">
+									<span class="text-positive-main font-bold">312 pts</span>
+								</td>
+							</tr>
+							<tr class="data-row transition-colors">
+								<td class="p-3">
+									<span
+										class="bg-primary-fixed text-primary text-micro-label rounded-full px-2 py-0.5 font-bold uppercase"
+										>L2</span
+									>
+								</td>
+								<td class="p-3">
+									<div class="flex items-center gap-2">
+										<div
+											class="bg-surface-dim flex h-6 w-6 items-center justify-center rounded-full"
+										>
+											<span class="text-[10px] font-bold">ARB</span>
+										</div>
+										<span class="text-token-symbol text-on-surface">Arbitrum</span>
+									</div>
+								</td>
+								<td class="text-secondary-info text-on-surface p-3 text-right">$1.05</td>
+								<td class="text-secondary-info text-on-surface p-3 text-right font-medium">
+									$1.18
+								</td>
+								<td class="p-3 text-right">
+									<span class="text-positive-main font-medium">+12.3%</span>
+								</td>
+								<td class="p-3 text-right">
+									<span class="text-positive-main font-bold">395 pts</span>
+								</td>
+							</tr>
+							<tr class="data-row transition-colors">
+								<td class="p-3">
+									<span
+										class="bg-tertiary-fixed text-sector-wildcard text-micro-label rounded-full px-2 py-0.5 font-bold uppercase"
+										>Wildcard</span
+									>
+								</td>
+								<td class="p-3">
+									<div class="flex items-center gap-2">
+										<div
+											class="bg-surface-dim flex h-6 w-6 items-center justify-center rounded-full"
+										>
+											<span class="text-[10px] font-bold">LINK</span>
+										</div>
+										<span class="text-token-symbol text-on-surface">Chainlink</span>
+									</div>
+								</td>
+								<td class="text-secondary-info text-on-surface p-3 text-right">$18.20</td>
+								<td class="text-secondary-info text-on-surface p-3 text-right font-medium">
+									$19.10
+								</td>
+								<td class="p-3 text-right">
+									<span class="text-positive-main font-medium">+4.9%</span>
+								</td>
+								<td class="p-3 text-right">
+									<span class="text-positive-main font-bold">198 pts</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<!-- Opponent's Lineup Revealed -->
+			<section
+				class="bg-surface-container-low border-border-default rounded-xl border p-4 shadow-sm"
+			>
+				<div class="mb-4 flex items-center gap-2">
+					<span class="material-symbols-outlined text-neutral-muted text-[20px]">visibility</span>
+					<h3 class="font-h2 text-on-surface">Opponent's Lineup Revealed</h3>
+					<span
+						class="bg-surface-container-highest text-on-surface-variant text-micro-label rounded-full px-2 py-0.5 font-medium tracking-wide uppercase"
+						>Locked</span
+					>
+				</div>
+				<div class="grid grid-cols-2 gap-3 md:grid-cols-5">
+					<!-- Slot 1 -->
+					<div
+						class="bg-surface-card border-border-default flex flex-col gap-2 rounded-lg border p-3"
+					>
+						<span
+							class="text-micro-label text-sector-l1 bg-positive-light w-fit rounded-full px-2 py-0.5 font-bold"
+							>L1</span
+						>
+						<div class="flex items-center justify-between">
+							<span class="text-token-symbol">ETH</span>
+							<span class="text-positive-main text-[12px] font-medium">+2.1%</span>
+						</div>
+					</div>
+					<!-- Slot 2 -->
+					<div
+						class="bg-surface-card border-border-default flex flex-col gap-2 rounded-lg border p-3"
+					>
+						<span
+							class="text-micro-label text-sector-meme bg-negative-light w-fit rounded-full px-2 py-0.5 font-bold"
+							>Meme</span
+						>
+						<div class="flex items-center justify-between">
+							<span class="text-token-symbol">DOGE</span>
+							<span class="text-negative-main text-[12px] font-medium">-1.4%</span>
+						</div>
+					</div>
+					<!-- Slot 3 -->
+					<div
+						class="bg-surface-card border-border-default flex flex-col gap-2 rounded-lg border p-3"
+					>
+						<span
+							class="text-micro-label text-sector-defi bg-secondary-container w-fit rounded-full px-2 py-0.5 font-bold"
+							>DeFi</span
+						>
+						<div class="flex items-center justify-between">
+							<span class="text-token-symbol">AAVE</span>
+							<span class="text-positive-main text-[12px] font-medium">+5.4%</span>
+						</div>
+					</div>
+					<!-- Slot 4 -->
+					<div
+						class="bg-surface-card border-border-default flex flex-col gap-2 rounded-lg border p-3"
+					>
+						<span
+							class="text-micro-label text-sector-l2 bg-primary-fixed w-fit rounded-full px-2 py-0.5 font-bold"
+							>L2</span
+						>
+						<div class="flex items-center justify-between">
+							<span class="text-token-symbol">OP</span>
+							<span class="text-negative-main text-[12px] font-medium">-2.8%</span>
+						</div>
+					</div>
+					<!-- Slot 5 -->
+					<div
+						class="bg-surface-card border-border-default flex flex-col gap-2 rounded-lg border p-3"
+					>
+						<span
+							class="text-micro-label text-sector-wildcard bg-tertiary-fixed w-fit rounded-full px-2 py-0.5 font-bold"
+							>Wild</span
+						>
+						<div class="flex items-center justify-between">
+							<span class="text-token-symbol">FET</span>
+							<span class="text-positive-main text-[12px] font-medium">+1.2%</span>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- Intelligence Briefing / AI Narrative Block -->
+			<section
+				class="border-primary bg-surface-card border-border-default mt-2 rounded-lg border border-l-0 border-l-4 p-4 shadow-sm"
+			>
+				<div class="mb-2 flex items-center gap-2">
+					<span class="material-symbols-outlined text-primary text-[20px]" data-weight="fill"
+						>lightbulb</span
+					>
+					<h4 class="text-card-label text-primary font-bold tracking-wider uppercase">
+						Live Strategy Insight
+					</h4>
+				</div>
+				<p class="text-body text-on-surface-variant text-[14px]">
+					Your lead is currently driven by a
+					<span class="text-positive-main font-medium">12.4% breakout in Solana</span> following a
+					surge in ecosystem DEX volume. Your opponent's reliance on DOGE is weighing them down as
+					meme-sector liquidity rotates back into L1 majors. If Arbitrum continues its current
+					trajectory above $1.15, your lead is expected to widen by another 150 points before the
+					4-hour lock.
+				</p>
+			</section>
+			<div class="flex justify-center py-4">
+				<div class="text-secondary-info text-neutral-muted flex items-center gap-2">
+					<span class="material-symbols-outlined text-[14px]">info</span>
+					Prices are sourced from SoSoValue Currencies API and updated every 60 seconds.
+				</div>
+			</div>
+		</main>
+		<!-- Bottom Navigation (Exclude shared as it is a process screen) -->
+		<footer
+			class="bg-surface-card border-border-default fixed right-0 bottom-0 left-0 flex h-[64px] items-center justify-around border-t px-6 md:hidden"
+		>
+			<button class="text-primary flex flex-col items-center gap-1">
+				<span class="material-symbols-outlined" data-weight="fill">sports_score</span>
+				<span class="text-micro-label font-medium">Contest</span>
+			</button>
+			<button class="text-neutral-muted flex flex-col items-center gap-1">
+				<span class="material-symbols-outlined">leaderboard</span>
+				<span class="text-micro-label font-medium">League</span>
+			</button>
+			<button class="text-neutral-muted flex flex-col items-center gap-1">
+				<span class="material-symbols-outlined">psychology</span>
+				<span class="text-micro-label font-medium">Research</span>
+			</button>
+		</footer>
+	</body>
+</html>

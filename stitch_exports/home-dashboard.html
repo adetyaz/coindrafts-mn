@@ -1,0 +1,437 @@
+<!doctype html>
+
+<html class="light" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<title>SoSoValue | Intelligence Dashboard</title>
+		<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			.material-symbols-outlined {
+				font-variation-settings:
+					'FILL' 0,
+					'wght' 400,
+					'GRAD' 0,
+					'opsz' 24;
+				display: inline-block;
+				line-height: 1;
+				text-transform: none;
+				letter-spacing: normal;
+				word-wrap: normal;
+				white-space: nowrap;
+				direction: ltr;
+			}
+		</style>
+		<script id="tailwind-config">
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {
+						colors: {
+							'on-primary': '#ffffff',
+							'negative-main': '#993C1D',
+							'negative-light': '#FAECE7',
+							background: '#fcf8ff',
+							'positive-main': '#0F6E56',
+							'error-container': '#ffdad6',
+							primary: '#3b309e',
+							'page-bg': '#F8F8F7',
+							'primary-fixed': '#e3dfff',
+							'tertiary-container': '#8a4900',
+							'on-secondary': '#ffffff',
+							'inverse-primary': '#c5c0ff',
+							'surface-variant': '#e5e1eb',
+							'on-secondary-fixed-variant': '#454653',
+							'primary-fixed-dim': '#c5c0ff',
+							'on-surface-variant': '#474553',
+							'on-secondary-fixed': '#191b26',
+							'sector-l1': '#0F6E56',
+							'surface-container-high': '#ebe6f0',
+							'primary-container': '#534ab7',
+							'tertiary-fixed-dim': '#ffb77d',
+							'surface-tint': '#584fbc',
+							'on-surface': '#1c1b22',
+							'sector-l2': '#3B82F6',
+							'on-tertiary': '#ffffff',
+							'border-default': 'rgba(0, 0, 0, 0.05)',
+							'secondary-container': '#e2e1f2',
+							'outline-variant': '#c8c4d5',
+							error: '#ba1a1a',
+							'sector-meme': '#993C1D',
+							secondary: '#5d5d6b',
+							'on-primary-container': '#d1ccff',
+							'on-tertiary-container': '#ffc69a',
+							'on-tertiary-fixed': '#2f1500',
+							'sector-wildcard': '#D97706',
+							'surface-card': '#FFFFFF',
+							'positive-light': '#E1F5EE',
+							'surface-container-low': '#f6f2fc',
+							tertiary: '#683500',
+							'on-error-container': '#93000a',
+							'on-background': '#1c1b22',
+							'neutral-muted': '#888780',
+							'inverse-surface': '#312f37',
+							'on-error': '#ffffff',
+							'surface-bright': '#fcf8ff',
+							'on-primary-fixed': '#140067',
+							'tertiary-fixed': '#ffdcc3',
+							'sector-defi': '#534AB7',
+							'on-primary-fixed-variant': '#3f35a3',
+							outline: '#787584',
+							'secondary-fixed-dim': '#c5c5d5',
+							'surface-container-highest': '#e5e1eb',
+							'inverse-on-surface': '#f3eff9',
+							'on-tertiary-fixed-variant': '#6e3900',
+							'secondary-fixed': '#e2e1f2',
+							'surface-dim': '#dcd8e2',
+							'on-secondary-container': '#636371',
+							'surface-container-lowest': '#ffffff',
+							'surface-container': '#f0ecf6',
+							surface: '#fcf8ff'
+						},
+						borderRadius: {
+							DEFAULT: '0.25rem',
+							lg: '0.5rem',
+							xl: '0.75rem',
+							full: '9999px'
+						},
+						spacing: {
+							'internal-padding': '12px 14px',
+							'icon-inline': '14px',
+							'icon-decorative': '20px',
+							'card-gap': '12px',
+							'row-gap': '8px',
+							'page-padding': '14px'
+						},
+						fontFamily: {
+							h2: ['Work Sans'],
+							'card-label': ['Inter'],
+							h1: ['Work Sans'],
+							'token-symbol': ['Inter'],
+							body: ['Inter'],
+							'secondary-info': ['Inter'],
+							'micro-label': ['Inter']
+						}
+					}
+				}
+			};
+		</script>
+	</head>
+	<body class="bg-page-bg font-body text-on-surface antialiased">
+		<!-- Shared TopNavBar Component -->
+		<header
+			class="border-outline-variant bg-surface-container-lowest fixed top-0 z-50 flex h-[44px] w-full items-center justify-between border-b px-4"
+		>
+			<div class="flex items-center gap-2">
+				<div class="bg-primary size-2 rounded-full"></div>
+				<h2 class="font-h2 text-on-surface text-sm font-bold tracking-tight">SoSoValue</h2>
+			</div>
+			<nav class="hidden flex-1 justify-center gap-6 md:flex">
+				<a class="font-card-label text-primary" href="#">home</a>
+				<a class="font-card-label text-on-surface-variant hover:text-primary" href="#">play</a>
+				<a class="font-card-label text-on-surface-variant hover:text-primary" href="#">leagues</a>
+				<a class="font-card-label text-on-surface-variant hover:text-primary" href="#">learn</a>
+			</nav>
+			<div class="flex items-center gap-3">
+				<div
+					class="bg-primary-fixed text-on-primary-fixed flex items-center gap-1.5 rounded-full px-3 py-1"
+				>
+					<span class="font-micro-label font-bold">250 XP</span>
+				</div>
+				<div
+					class="bg-surface-container-high text-on-surface flex size-7 items-center justify-center rounded-full"
+				>
+					<span class="material-symbols-outlined !text-[18px]">person</span>
+				</div>
+			</div>
+		</header>
+		<main class="p-page-padding mx-auto mt-[44px] max-w-[1200px] space-y-3">
+			<!-- Stat Row -->
+			<section class="gap-card-gap grid grid-cols-1 sm:grid-cols-3">
+				<div
+					class="border-border-default bg-surface-card p-internal-padding flex flex-col gap-1 rounded-xl border"
+				>
+					<span class="font-card-label text-neutral-muted uppercase">Active Contests</span>
+					<div class="flex items-end justify-between">
+						<span class="font-h1 text-2xl leading-none">3</span>
+						<span
+							class="font-secondary-info text-positive-main bg-positive-light rounded-full px-2 py-0.5"
+							>In progress</span
+						>
+					</div>
+				</div>
+				<div
+					class="border-border-default bg-surface-card p-internal-padding flex flex-col gap-1 rounded-xl border"
+				>
+					<span class="font-card-label text-neutral-muted uppercase">Current Streak</span>
+					<div class="flex items-end gap-2">
+						<span class="font-h1 text-2xl leading-none">5 Days</span>
+						<span class="material-symbols-outlined text-negative-main" data-weight="fill"
+							>local_fire_department</span
+						>
+					</div>
+				</div>
+				<div
+					class="border-border-default bg-surface-card p-internal-padding flex flex-col gap-1 rounded-xl border"
+				>
+					<span class="font-card-label text-neutral-muted uppercase">Win Rate</span>
+					<div class="flex items-end justify-between">
+						<span class="font-h1 text-2xl leading-none">68%</span>
+						<span class="font-secondary-info text-positive-main">+2.4% vs last week</span>
+					</div>
+				</div>
+			</section>
+			<!-- Draft CTA Banner -->
+			<section class="bg-primary text-on-primary relative overflow-hidden rounded-xl px-6 py-8">
+				<div class="relative z-10 flex flex-col items-center justify-between gap-4 sm:flex-row">
+					<div class="space-y-1">
+						<h3 class="font-h1 text-xl">The Weekly Gauntlet</h3>
+						<div class="flex items-center gap-2">
+							<span class="material-symbols-outlined text-on-primary-container !text-[16px]"
+								>schedule</span
+							>
+							<p class="font-secondary-info text-on-primary-container">Next lock in 04:22:15</p>
+						</div>
+					</div>
+					<button
+						class="bg-surface-container-lowest text-primary flex h-11 items-center gap-2 rounded-lg px-6 font-bold transition-opacity hover:opacity-90"
+					>
+						Draft Now
+						<span class="material-symbols-outlined !text-[18px]">north_east</span>
+					</button>
+				</div>
+				<div
+					class="bg-primary-container absolute -top-8 -right-8 size-48 rounded-full opacity-20 blur-3xl"
+				></div>
+			</section>
+			<!-- Middle Grid -->
+			<div class="gap-card-gap grid grid-cols-1 md:grid-cols-2">
+				<!-- Sector Wars Card -->
+				<div class="border-border-default bg-surface-card p-internal-padding rounded-xl border">
+					<div class="mb-4 flex items-center justify-between">
+						<h3 class="font-h2 text-neutral-muted text-sm uppercase">Sector Wars</h3>
+						<span class="font-micro-label text-neutral-muted">Live 15m Cache</span>
+					</div>
+					<div class="space-y-4">
+						<!-- AI Row -->
+						<div class="space-y-1">
+							<div class="font-token-symbol flex justify-between">
+								<span class="text-on-surface">AI Tokens</span>
+								<span class="text-positive-main">+12.4%</span>
+							</div>
+							<div class="bg-surface-container h-2 w-full overflow-hidden rounded-full">
+								<div class="bg-primary h-full" style="width: 85%"></div>
+							</div>
+						</div>
+						<!-- L1 Row -->
+						<div class="space-y-1">
+							<div class="font-token-symbol flex justify-between">
+								<span class="text-on-surface">Layer 1</span>
+								<span class="text-positive-main">+5.2%</span>
+							</div>
+							<div class="bg-surface-container h-2 w-full overflow-hidden rounded-full">
+								<div class="bg-sector-l1 h-full" style="width: 60%"></div>
+							</div>
+						</div>
+						<!-- L2 Row -->
+						<div class="space-y-1">
+							<div class="font-token-symbol flex justify-between">
+								<span class="text-on-surface">Layer 2</span>
+								<span class="text-negative-main">-2.1%</span>
+							</div>
+							<div class="bg-surface-container h-2 w-full overflow-hidden rounded-full">
+								<div class="bg-sector-l2 h-full" style="width: 45%"></div>
+							</div>
+						</div>
+						<!-- DeFi Row -->
+						<div class="space-y-1">
+							<div class="font-token-symbol flex justify-between">
+								<span class="text-on-surface">DeFi</span>
+								<span class="text-positive-main">+3.8%</span>
+							</div>
+							<div class="bg-surface-container h-2 w-full overflow-hidden rounded-full">
+								<div class="bg-sector-defi h-full" style="width: 55%"></div>
+							</div>
+						</div>
+						<!-- Meme Row -->
+						<div class="space-y-1">
+							<div class="font-token-symbol flex justify-between">
+								<span class="text-on-surface">Memes</span>
+								<span class="text-negative-main">-8.4%</span>
+							</div>
+							<div class="bg-surface-container h-2 w-full overflow-hidden rounded-full">
+								<div class="bg-sector-meme h-full" style="width: 30%"></div>
+							</div>
+						</div>
+						<!-- RWA Row -->
+						<div class="space-y-1">
+							<div class="font-token-symbol flex justify-between">
+								<span class="text-on-surface">RWA</span>
+								<span class="text-positive-main">+1.2%</span>
+							</div>
+							<div class="bg-surface-container h-2 w-full overflow-hidden rounded-full">
+								<div class="bg-sector-wildcard h-full" style="width: 40%"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Whale Watch Card -->
+				<div class="border-border-default bg-surface-card p-internal-padding rounded-xl border">
+					<div class="mb-4 flex items-center justify-between">
+						<h3 class="font-h2 text-neutral-muted text-sm uppercase">Whale Watch</h3>
+						<span class="material-symbols-outlined text-primary !text-[18px]">monitoring</span>
+					</div>
+					<div class="space-y-3">
+						<div class="bg-surface-container-low flex gap-3 rounded-lg p-3">
+							<div
+								class="bg-positive-light text-positive-main flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+							>
+								<span class="material-symbols-outlined">trending_up</span>
+							</div>
+							<div class="space-y-1">
+								<p class="font-token-symbol text-on-surface">Significant ETF Inflow</p>
+								<p class="font-secondary-info text-on-surface-variant leading-tight">
+									BTC Spot ETFs recorded +$420M net inflow yesterday, marking a 5-day positive
+									streak.
+								</p>
+							</div>
+						</div>
+						<div class="bg-surface-container-low flex gap-3 rounded-lg p-3">
+							<div
+								class="bg-negative-light text-negative-main flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+							>
+								<span class="material-symbols-outlined">waves</span>
+							</div>
+							<div class="space-y-1">
+								<p class="font-token-symbol text-on-surface">Meme Sector Outflow</p>
+								<p class="font-secondary-info text-on-surface-variant leading-tight">
+									Whale wallets moved $12M from top meme coins to stablecoin pools in the last 4
+									hours.
+								</p>
+							</div>
+						</div>
+						<div class="bg-surface-container-low flex gap-3 rounded-lg p-3">
+							<div
+								class="bg-primary-fixed text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+							>
+								<span class="material-symbols-outlined">bolt</span>
+							</div>
+							<div class="space-y-1">
+								<p class="font-token-symbol text-on-surface">DeFi Volume Spike</p>
+								<p class="font-secondary-info text-on-surface-variant leading-tight">
+									Uniswap V4 search volume has spiked 300% on SoSoValue research feeds this morning.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="bg-page-bg border-outline mt-4 rounded-lg border border-dashed p-3">
+						<img
+							alt="Market data chart"
+							class="h-auto w-full"
+							data-alt="A clean, minimalist financial area chart showing cryptocurrency market volatility and volume trends. The chart uses a soft purple gradient fill and a crisp primary-brand purple line. The background is a very light gray with subtle gridlines, maintaining a high-end corporate research aesthetic that emphasizes data clarity and precision."
+							src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwkyZUDtkaRIKfdbgieL_rdKcpj02vwqISV04gQcKBQncZXc8DmK784kLt9Zpl_KweotrNMfjd2UYD8hEBHx_P9hTUcwSHZdNfwCK45dxqofDVWSq6xk20MziJIHcECTNiGqtH7qeQ1ziPn3rsqhjQvf0caexlVkY8-14pMumao-5VaUjqu65G676gPF8FpiZ5ehYBEpMA9fbS-OVTzTUMoe9Zz9LJlKvdGMQDygKuH6ech3Dg2DUZLj2c2UkRWTBTCTpq7rD4ER8"
+						/>
+					</div>
+				</div>
+			</div>
+			<!-- Today's Gauntlet -->
+			<section class="border-border-default bg-surface-card p-internal-padding rounded-xl border">
+				<div class="mb-4 flex items-center gap-2">
+					<span class="material-symbols-outlined text-sector-wildcard" data-weight="fill"
+						>military_tech</span
+					>
+					<h3 class="font-h2 text-neutral-muted text-sm tracking-wide uppercase">
+						Today's Gauntlet
+					</h3>
+				</div>
+				<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+					<div class="md:col-span-2">
+						<h4 class="font-h1 mb-4 text-xl">
+							Based on SoSoValue data, which sector currently exhibits the highest
+							Volume-to-Market-Cap ratio over the last 24h?
+						</h4>
+						<div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+							<button
+								class="border-outline-variant hover:bg-surface-container group flex items-center justify-between rounded-lg border p-4 transition-colors"
+							>
+								<span class="font-body text-on-surface">AI Tokens</span>
+								<div
+									class="border-outline group-hover:border-primary size-5 rounded-full border"
+								></div>
+							</button>
+							<button
+								class="border-primary bg-primary-fixed text-on-primary-fixed flex items-center justify-between rounded-lg border-2 p-4 transition-colors"
+							>
+								<span class="font-body font-medium">Layer 1 Networks</span>
+								<div class="bg-primary flex size-5 items-center justify-center rounded-full">
+									<div class="size-2 rounded-full bg-white"></div>
+								</div>
+							</button>
+							<button
+								class="border-outline-variant hover:bg-surface-container group flex items-center justify-between rounded-lg border p-4 transition-colors"
+							>
+								<span class="font-body text-on-surface">DeFi Protocols</span>
+								<div
+									class="border-outline group-hover:border-primary size-5 rounded-full border"
+								></div>
+							</button>
+							<button
+								class="border-outline-variant hover:bg-surface-container group flex items-center justify-between rounded-lg border p-4 transition-colors"
+							>
+								<span class="font-body text-on-surface">Meme Coins</span>
+								<div
+									class="border-outline group-hover:border-primary size-5 rounded-full border"
+								></div>
+							</button>
+						</div>
+					</div>
+					<div
+						class="border-primary bg-surface-container-low flex flex-col gap-3 rounded-lg border-l-4 p-4"
+					>
+						<div class="text-primary flex items-center gap-2">
+							<span class="material-symbols-outlined !text-[18px]">lightbulb</span>
+							<p class="font-card-label uppercase">Quick Insight</p>
+						</div>
+						<p class="font-secondary-info text-on-surface-variant">
+							Higher Volume/MC ratios often precede significant price movements. Research shows that
+							Layer 1s are currently leading this metric due to increased bridge activity across
+							Solana and Ethereum.
+						</p>
+						<div class="border-outline-variant mt-auto border-t pt-4">
+							<p class="font-micro-label text-neutral-muted mb-1">Rewards</p>
+							<div class="flex items-center gap-2">
+								<span class="text-primary font-bold">+50 XP</span>
+								<span class="bg-neutral-muted size-1 rounded-full"></span>
+								<span class="text-sector-l1 font-bold">L1 Sector Boost</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+		<!-- Footer / Bottom Status (Optional) -->
+		<footer
+			class="border-outline-variant bg-surface-container-lowest mt-8 border-t p-6 text-center"
+		>
+			<div class="text-neutral-muted flex justify-center gap-8">
+				<p class="font-secondary-info">© 2024 SoSoValue Intelligence</p>
+				<a class="font-secondary-info hover:text-primary" href="#">Data Policy</a>
+				<a class="font-secondary-info hover:text-primary" href="#"
+					>API Status: <span class="text-positive-main">Healthy</span></a
+				>
+			</div>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,12 @@
+{
+	"crons": [
+		{
+			"path": "/api/gauntlet/seed",
+			"schedule": "0 0 * * *"
+		},
+		{
+			"path": "/api/cron/resolve-all",
+			"schedule": "5 0 * * *"
+		}
+	]
+}

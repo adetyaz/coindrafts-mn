@@ -1,0 +1,488 @@
+<!doctype html>
+
+<html class="light" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<title>Draft — Daily Contest</title>
+		<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Work+Sans:wght@500&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<script id="tailwind-config">
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {
+						colors: {
+							'on-primary': '#ffffff',
+							'negative-main': '#993C1D',
+							'negative-light': '#FAECE7',
+							background: '#fcf8ff',
+							'positive-main': '#0F6E56',
+							'error-container': '#ffdad6',
+							primary: '#3b309e',
+							'page-bg': '#F8F8F7',
+							'primary-fixed': '#e3dfff',
+							'tertiary-container': '#8a4900',
+							'on-secondary': '#ffffff',
+							'inverse-primary': '#c5c0ff',
+							'surface-variant': '#e5e1eb',
+							'on-secondary-fixed-variant': '#454653',
+							'primary-fixed-dim': '#c5c0ff',
+							'on-surface-variant': '#474553',
+							'on-secondary-fixed': '#191b26',
+							'sector-l1': '#0F6E56',
+							'surface-container-high': '#ebe6f0',
+							'primary-container': '#534ab7',
+							'tertiary-fixed-dim': '#ffb77d',
+							'surface-tint': '#584fbc',
+							'on-surface': '#1c1b22',
+							'sector-l2': '#3B82F6',
+							'on-tertiary': '#ffffff',
+							'border-default': 'rgba(0, 0, 0, 0.05)',
+							'secondary-container': '#e2e1f2',
+							'outline-variant': '#c8c4d5',
+							error: '#ba1a1a',
+							'sector-meme': '#993C1D',
+							secondary: '#5d5d6b',
+							'on-primary-container': '#d1ccff',
+							'on-tertiary-container': '#ffc69a',
+							'on-tertiary-fixed': '#2f1500',
+							'sector-wildcard': '#D97706',
+							'surface-card': '#FFFFFF',
+							'positive-light': '#E1F5EE',
+							'surface-container-low': '#f6f2fc',
+							tertiary: '#683500',
+							'on-error-container': '#93000a',
+							'on-background': '#1c1b22',
+							'neutral-muted': '#888780',
+							'inverse-surface': '#312f37',
+							'on-error': '#ffffff',
+							'surface-bright': '#fcf8ff',
+							'on-primary-fixed': '#140067',
+							'tertiary-fixed': '#ffdcc3',
+							'sector-defi': '#534AB7',
+							'on-primary-fixed-variant': '#3f35a3',
+							outline: '#787584',
+							'secondary-fixed-dim': '#c5c5d5',
+							'surface-container-highest': '#e5e1eb',
+							'inverse-on-surface': '#f3eff9',
+							'on-tertiary-fixed-variant': '#6e3900',
+							'secondary-fixed': '#e2e1f2',
+							'surface-dim': '#dcd8e2',
+							'on-secondary-container': '#636371',
+							'surface-container-lowest': '#ffffff',
+							'surface-container': '#f0ecf6',
+							surface: '#fcf8ff'
+						},
+						borderRadius: {
+							DEFAULT: '0.25rem',
+							lg: '0.5rem',
+							xl: '0.75rem',
+							full: '9999px'
+						}
+					}
+				}
+			};
+		</script>
+		<style>
+			.material-symbols-outlined {
+				font-variation-settings:
+					'FILL' 0,
+					'wght' 400,
+					'GRAD' 0,
+					'opsz' 24;
+				vertical-align: middle;
+				font-size: 20px;
+			}
+			body {
+				font-family: 'Inter', sans-serif;
+				background-color: #f8f8f7;
+			}
+			h1,
+			h2 {
+				font-family: 'Work Sans', sans-serif;
+			}
+		</style>
+	</head>
+	<body class="text-on-surface">
+		<div
+			class="bg-page-bg group/design-root relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden"
+		>
+			<div class="layout-container flex h-full grow flex-col">
+				<!-- Focused Header (Back-to-Main Exception) -->
+				<header
+					class="border-border-default bg-surface-container-lowest sticky top-0 z-50 flex items-center justify-between border-b px-4 py-3 md:px-10"
+				>
+					<div class="flex items-center gap-3">
+						<button
+							class="bg-surface-container hover:bg-surface-container-high flex h-9 w-9 items-center justify-center rounded-lg transition-colors"
+						>
+							<span class="material-symbols-outlined">arrow_back</span>
+						</button>
+						<div class="flex flex-col">
+							<h2 class="text-on-surface text-lg leading-tight font-medium tracking-tight">
+								Draft — Daily Contest
+							</h2>
+							<span class="text-neutral-muted text-[11px] font-medium tracking-wider uppercase"
+								>Strategic Selection Phase</span
+							>
+						</div>
+					</div>
+					<div class="flex items-center gap-2">
+						<div
+							class="bg-negative-light text-negative-main flex items-center gap-2 rounded-full px-3 py-1.5"
+						>
+							<span class="material-symbols-outlined text-[16px]">timer</span>
+							<span class="text-sm font-bold tabular-nums">00:45:12</span>
+						</div>
+					</div>
+				</header>
+				<main class="flex flex-1 justify-center py-4 md:py-8">
+					<div class="layout-content-container flex max-w-[960px] flex-1 flex-col gap-6 px-4">
+						<!-- VS Bar -->
+						<div class="bg-surface-card border-border-default rounded-xl border p-4 shadow-sm">
+							<div class="flex items-center justify-between gap-4">
+								<div class="flex flex-1 items-center gap-4">
+									<div class="relative">
+										<div
+											class="bg-primary text-on-primary border-primary-fixed flex size-12 items-center justify-center rounded-full border-2 text-lg font-medium"
+										>
+											JD
+										</div>
+										<div
+											class="bg-positive-main border-surface-card absolute -right-1 -bottom-1 flex size-5 items-center justify-center rounded-full border-2"
+										>
+											<span
+												class="material-symbols-outlined text-[12px] text-white"
+												style="font-variation-settings: 'FILL' 1"
+												>check</span
+											>
+										</div>
+									</div>
+									<div class="flex flex-col">
+										<p class="text-on-surface text-base leading-tight font-medium">
+											You (JayD_Alpha)
+										</p>
+										<p class="text-neutral-muted text-secondary-info">Rank #42 • 64% Win Rate</p>
+									</div>
+								</div>
+								<div class="flex flex-col items-center">
+									<span
+										class="text-neutral-muted text-sm font-bold tracking-widest uppercase opacity-40"
+										>vs</span
+									>
+								</div>
+								<div class="flex flex-1 items-center justify-end gap-4 text-right">
+									<div class="flex flex-col">
+										<p class="text-on-surface text-base leading-tight font-medium">
+											CryptoWhale_88
+										</p>
+										<p class="text-neutral-muted text-secondary-info">Rank #12 • 71% Win Rate</p>
+									</div>
+									<div
+										class="bg-secondary text-on-secondary border-secondary-fixed flex size-12 items-center justify-center rounded-full border-2 text-lg font-medium"
+									>
+										CW
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Lineup Slots Section -->
+						<section>
+							<div class="mb-3 flex items-center justify-between px-1">
+								<h3 class="text-on-surface text-h2">Your Lineup</h3>
+								<span class="text-neutral-muted text-micro-label tracking-widest uppercase"
+									>3 / 5 Slots Filled</span
+								>
+							</div>
+							<div class="mb-3 grid grid-cols-2 gap-3">
+								<!-- Slot 1: L1 (Filled) -->
+								<div
+									class="bg-surface-card border-0.5 border-border-default hover:border-primary/30 flex h-32 cursor-pointer flex-col gap-3 rounded-xl p-3 transition-all"
+								>
+									<div class="flex items-start justify-between">
+										<span
+											class="bg-positive-light text-sector-l1 text-micro-label rounded-full px-2 py-0.5 font-bold uppercase"
+											>L1 Sector</span
+										>
+										<span
+											class="material-symbols-outlined text-positive-main text-[18px]"
+											style="font-variation-settings: 'FILL' 1"
+											>check_circle</span
+										>
+									</div>
+									<div class="mt-auto flex items-center gap-3">
+										<div
+											class="bg-page-bg border-border-default flex size-8 items-center justify-center rounded-full border"
+										>
+											<span class="material-symbols-outlined text-sector-l1">currency_bitcoin</span>
+										</div>
+										<div>
+											<p class="text-token-symbol leading-none font-medium">BTC</p>
+											<p class="text-positive-main text-secondary-info font-medium">+2.4%</p>
+										</div>
+									</div>
+								</div>
+								<!-- Slot 2: L2 (Empty) -->
+								<div
+									class="bg-surface-container-low border-0.5 border-outline-variant hover:bg-surface-container group flex h-32 flex-col items-center justify-center rounded-xl border-dashed p-3 transition-all"
+								>
+									<span
+										class="bg-sector-l2/10 text-sector-l2 text-micro-label mb-2 rounded-full px-2 py-0.5 font-bold uppercase"
+										>L2 Sector</span
+									>
+									<div
+										class="flex flex-col items-center gap-1 transition-transform group-hover:scale-105"
+									>
+										<span class="material-symbols-outlined text-outline">add_circle</span>
+										<p class="text-outline text-secondary-info font-medium">Draft L2 Token</p>
+									</div>
+								</div>
+								<!-- Slot 3: Meme (Filled) -->
+								<div
+									class="bg-surface-card border-0.5 border-border-default hover:border-primary/30 flex h-32 cursor-pointer flex-col gap-3 rounded-xl p-3 transition-all"
+								>
+									<div class="flex items-start justify-between">
+										<span
+											class="bg-negative-light text-sector-meme text-micro-label rounded-full px-2 py-0.5 font-bold uppercase"
+											>Meme Sector</span
+										>
+										<span
+											class="material-symbols-outlined text-positive-main text-[18px]"
+											style="font-variation-settings: 'FILL' 1"
+											>check_circle</span
+										>
+									</div>
+									<div class="mt-auto flex items-center gap-3">
+										<div
+											class="bg-page-bg border-border-default flex size-8 items-center justify-center rounded-full border"
+										>
+											<span class="material-symbols-outlined text-sector-meme">pets</span>
+										</div>
+										<div>
+											<p class="text-token-symbol leading-none font-medium">PEPE</p>
+											<p class="text-positive-main text-secondary-info font-medium">+12.8%</p>
+										</div>
+									</div>
+								</div>
+								<!-- Slot 4: DeFi (Empty - Boosted) -->
+								<div
+									class="bg-primary-fixed border-primary relative flex h-32 flex-col items-center justify-center overflow-hidden rounded-xl border-2 p-3"
+								>
+									<div class="absolute top-0 right-0">
+										<div
+											class="bg-primary rounded-bl-lg px-2 py-0.5 text-[9px] font-bold tracking-tighter text-white uppercase"
+										>
+											Boost Active
+										</div>
+									</div>
+									<span
+										class="bg-sector-defi text-on-primary text-micro-label mb-2 rounded-full px-2 py-0.5 font-bold uppercase"
+										>DeFi Sector</span
+									>
+									<div class="flex flex-col items-center gap-1">
+										<span
+											class="material-symbols-outlined text-primary"
+											style="font-variation-settings: 'FILL' 1"
+											>bolt</span
+										>
+										<p class="text-primary text-secondary-info font-bold tracking-tight uppercase">
+											Draft +20% XP
+										</p>
+									</div>
+								</div>
+							</div>
+							<!-- Slot 5: Wildcard (Full Width) -->
+							<div
+								class="bg-surface-card border-0.5 border-border-default hover:border-primary/30 flex cursor-pointer items-center gap-4 rounded-xl p-4 transition-all"
+							>
+								<div class="flex-1">
+									<div class="mb-2 flex items-center gap-2">
+										<span
+											class="bg-sector-wildcard/10 text-sector-wildcard text-micro-label rounded-full px-2 py-0.5 font-bold uppercase"
+											>Wildcard Sector</span
+										>
+										<span class="text-neutral-muted text-micro-label">• Any Token Allowed</span>
+									</div>
+									<div class="flex items-center gap-3">
+										<div
+											class="bg-page-bg border-border-default flex size-10 items-center justify-center rounded-full border"
+										>
+											<span class="material-symbols-outlined text-sector-wildcard">star</span>
+										</div>
+										<div>
+											<p class="text-token-symbol leading-none font-medium">SOL</p>
+											<p class="text-negative-main text-secondary-info font-medium">-1.2%</p>
+										</div>
+									</div>
+								</div>
+								<span
+									class="material-symbols-outlined text-positive-main"
+									style="font-variation-settings: 'FILL' 1"
+									>check_circle</span
+								>
+							</div>
+						</section>
+						<!-- Token Pool Panel -->
+						<section class="flex flex-col gap-3">
+							<div
+								class="bg-surface-card border-border-default flex flex-col gap-4 overflow-hidden rounded-xl border shadow-sm"
+							>
+								<div class="border-border-default flex flex-col gap-3 border-b p-4">
+									<div class="flex items-center justify-between">
+										<h3 class="text-on-surface text-h2">Token Pool</h3>
+										<div class="text-neutral-muted flex items-center gap-2">
+											<span class="material-symbols-outlined text-[14px]">refresh</span>
+											<span class="text-[11px] font-medium">Updates in 4:20</span>
+										</div>
+									</div>
+									<!-- Filter Pills -->
+									<div class="scrollbar-hide no-scrollbar flex gap-2 overflow-x-auto pb-1">
+										<button
+											class="bg-primary text-on-primary text-secondary-info rounded-full px-4 py-1.5 font-medium whitespace-nowrap"
+										>
+											All
+										</button>
+										<button
+											class="bg-surface-container text-secondary text-secondary-info hover:bg-surface-container-high rounded-full px-4 py-1.5 font-medium whitespace-nowrap transition-colors"
+										>
+											L1
+										</button>
+										<button
+											class="bg-surface-container text-secondary text-secondary-info hover:bg-surface-container-high rounded-full px-4 py-1.5 font-medium whitespace-nowrap transition-colors"
+										>
+											L2
+										</button>
+										<button
+											class="bg-surface-container text-secondary text-secondary-info hover:bg-surface-container-high rounded-full px-4 py-1.5 font-medium whitespace-nowrap transition-colors"
+										>
+											Meme
+										</button>
+										<button
+											class="bg-surface-container text-secondary text-secondary-info hover:bg-surface-container-high rounded-full px-4 py-1.5 font-medium whitespace-nowrap transition-colors"
+										>
+											DeFi
+										</button>
+										<button
+											class="bg-surface-container text-secondary text-secondary-info hover:bg-surface-container-high rounded-full px-4 py-1.5 font-medium whitespace-nowrap transition-colors"
+										>
+											Wildcard
+										</button>
+									</div>
+								</div>
+								<!-- Token List Table -->
+								<div class="flex flex-col">
+									<div
+										class="border-border-default text-micro-label text-neutral-muted bg-surface-container-lowest grid grid-cols-12 border-b px-4 py-2 font-bold tracking-wider uppercase"
+									>
+										<div class="col-span-6">Token</div>
+										<div class="col-span-3 text-right">24h Change</div>
+										<div class="col-span-3 text-right">Volume</div>
+									</div>
+									<!-- Token Row: Selected -->
+									<div
+										class="border-border-default bg-primary-fixed/30 hover:bg-primary-fixed grid cursor-pointer grid-cols-12 items-center border-b px-4 py-3 transition-colors"
+									>
+										<div class="col-span-6 flex items-center gap-3">
+											<div
+												class="bg-surface-card border-border-default flex size-8 items-center justify-center rounded-full border shadow-sm"
+											>
+												<span class="material-symbols-outlined text-primary"
+													>currency_exchange</span
+												>
+											</div>
+											<div class="flex flex-col">
+												<span class="text-token-symbol text-on-surface font-medium">ARB</span>
+												<span class="text-secondary-info text-neutral-muted">Arbitrum</span>
+											</div>
+										</div>
+										<div class="col-span-3 text-right">
+											<span class="text-secondary-info text-positive-main font-medium">+4.12%</span>
+										</div>
+										<div class="col-span-3 text-right">
+											<span class="text-secondary-info text-on-surface font-medium">$842.1M</span>
+										</div>
+									</div>
+									<!-- Token Row -->
+									<div
+										class="border-border-default bg-surface-card hover:bg-surface-container-low grid cursor-pointer grid-cols-12 items-center border-b px-4 py-3 transition-colors"
+									>
+										<div class="col-span-6 flex items-center gap-3">
+											<div
+												class="bg-page-bg border-border-default flex size-8 items-center justify-center rounded-full border"
+											>
+												<span class="material-symbols-outlined text-sector-l1">hive</span>
+											</div>
+											<div class="flex flex-col">
+												<span class="text-token-symbol text-on-surface font-medium">OP</span>
+												<span class="text-secondary-info text-neutral-muted">Optimism</span>
+											</div>
+										</div>
+										<div class="col-span-3 text-right">
+											<span class="text-secondary-info text-negative-main font-medium">-1.84%</span>
+										</div>
+										<div class="col-span-3 text-right">
+											<span class="text-secondary-info text-on-surface font-medium">$215.4M</span>
+										</div>
+									</div>
+									<!-- Token Row -->
+									<div
+										class="border-border-default bg-surface-card hover:bg-surface-container-low grid cursor-pointer grid-cols-12 items-center border-b px-4 py-3 transition-colors"
+									>
+										<div class="col-span-6 flex items-center gap-3">
+											<div
+												class="bg-page-bg border-border-default flex size-8 items-center justify-center rounded-full border"
+											>
+												<span class="material-symbols-outlined text-sector-defi"
+													>account_balance_wallet</span
+												>
+											</div>
+											<div class="flex flex-col">
+												<span class="text-token-symbol text-on-surface font-medium">UNI</span>
+												<span class="text-secondary-info text-neutral-muted">Uniswap</span>
+											</div>
+										</div>
+										<div class="col-span-3 text-right">
+											<span class="text-secondary-info text-positive-main font-medium">+0.45%</span>
+										</div>
+										<div class="col-span-3 text-right">
+											<span class="text-secondary-info text-on-surface font-medium">$312.9M</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+						<!-- Lock Button Area -->
+						<div class="mt-4 pb-8">
+							<button
+								class="bg-outline text-surface-card flex h-14 w-full cursor-not-allowed items-center justify-center overflow-hidden rounded-xl text-base leading-normal font-bold tracking-wide opacity-60 shadow-lg"
+							>
+								<span class="truncate">Fill all 5 slots to lock lineup</span>
+							</button>
+							<!-- Enabled version for visual context (hidden by default in code but designed for state) -->
+							<div class="hidden">
+								<button
+									class="bg-primary text-on-primary hover:bg-primary-container flex h-14 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl text-base leading-normal font-bold tracking-wide shadow-lg transition-all active:scale-[0.98]"
+								>
+									<span class="truncate">Lock Lineup</span>
+									<span class="material-symbols-outlined ml-2">lock</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</main>
+			</div>
+		</div>
+	</body>
+</html>

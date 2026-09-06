@@ -1,0 +1,362 @@
+<!doctype html>
+
+<html class="light" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<title>Match Result - SoSoValue Fantasy</title>
+		<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700;900&amp;family=Inter:wght@400;500&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<script id="tailwind-config">
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {
+						colors: {
+							'on-primary': '#ffffff',
+							'negative-main': '#993C1D',
+							'negative-light': '#FAECE7',
+							background: '#fcf8ff',
+							'positive-main': '#0F6E56',
+							'error-container': '#ffdad6',
+							primary: '#3b309e',
+							'page-bg': '#F8F8F7',
+							'primary-fixed': '#e3dfff',
+							'tertiary-container': '#8a4900',
+							'on-secondary': '#ffffff',
+							'inverse-primary': '#c5c0ff',
+							'surface-variant': '#e5e1eb',
+							'on-secondary-fixed-variant': '#454653',
+							'primary-fixed-dim': '#c5c0ff',
+							'on-surface-variant': '#474553',
+							'on-secondary-fixed': '#191b26',
+							'sector-l1': '#0F6E56',
+							'surface-container-high': '#ebe6f0',
+							'primary-container': '#534ab7',
+							'tertiary-fixed-dim': '#ffb77d',
+							'surface-tint': '#584fbc',
+							'on-surface': '#1c1b22',
+							'sector-l2': '#3B82F6',
+							'on-tertiary': '#ffffff',
+							'border-default': 'rgba(0, 0, 0, 0.05)',
+							'secondary-container': '#e2e1f2',
+							'outline-variant': '#c8c4d5',
+							error: '#ba1a1a',
+							'sector-meme': '#993C1D',
+							secondary: '#5d5d6b',
+							'on-primary-container': '#d1ccff',
+							'on-tertiary-container': '#ffc69a',
+							'on-tertiary-fixed': '#2f1500',
+							'sector-wildcard': '#D97706',
+							'surface-card': '#FFFFFF',
+							'positive-light': '#E1F5EE',
+							'surface-container-low': '#f6f2fc',
+							tertiary: '#683500',
+							'on-error-container': '#93000a',
+							'on-background': '#1c1b22',
+							'neutral-muted': '#888780',
+							'inverse-surface': '#312f37',
+							'on-error': '#ffffff',
+							'surface-bright': '#fcf8ff',
+							'on-primary-fixed': '#140067',
+							'sector-defi': '#534AB7',
+							'on-primary-fixed-variant': '#3f35a3',
+							outline: '#787584',
+							'secondary-fixed-dim': '#c5c5d5',
+							'surface-container-highest': '#e5e1eb',
+							'inverse-on-surface': '#f3eff9',
+							'on-tertiary-fixed-variant': '#6e3900',
+							'secondary-fixed': '#e2e1f2',
+							'surface-dim': '#dcd8e2',
+							'on-secondary-container': '#636371',
+							'surface-container-lowest': '#ffffff',
+							'surface-container': '#f0ecf6',
+							surface: '#fcf8ff'
+						},
+						borderRadius: {
+							DEFAULT: '0.25rem',
+							lg: '0.5rem',
+							xl: '0.75rem',
+							full: '9999px'
+						},
+						spacing: {
+							'internal-padding': '12px 14px',
+							'icon-inline': '14px',
+							'icon-decorative': '20px',
+							'card-gap': '12px',
+							'row-gap': '8px',
+							'page-padding': '14px'
+						},
+						fontFamily: {
+							h2: ['Work Sans'],
+							'card-label': ['Inter'],
+							h1: ['Work Sans'],
+							'token-symbol': ['Inter'],
+							body: ['Inter'],
+							'secondary-info': ['Inter'],
+							'micro-label': ['Inter']
+						}
+					}
+				}
+			};
+		</script>
+		<style>
+			body {
+				font-family: 'Inter', sans-serif;
+				background-color: #f8f8f7;
+			}
+			.material-symbols-outlined {
+				font-size: 20px;
+				vertical-align: middle;
+			}
+		</style>
+	</head>
+	<body class="bg-page-bg text-on-surface min-h-screen">
+		<div class="bg-page-bg relative flex min-h-screen w-full flex-col overflow-x-hidden">
+			<!-- Minimal Back Header (Focused View Rule) -->
+			<div
+				class="bg-surface-container-lowest border-border-default sticky top-0 z-50 flex items-center border-b px-4 py-3"
+			>
+				<button class="text-secondary hover:text-primary flex items-center gap-2 transition-colors">
+					<span class="material-symbols-outlined">arrow_back</span>
+					<span class="text-sm font-medium">Exit Result</span>
+				</button>
+			</div>
+			<main class="mx-auto w-full max-w-[960px] flex-1 space-y-4 p-4">
+				<!-- Result Banner: You Won -->
+				<div class="bg-positive-main relative overflow-hidden rounded-xl p-6 text-white shadow-sm">
+					<div class="relative z-10">
+						<div class="mb-4 flex items-start justify-between">
+							<div>
+								<p
+									class="text-positive-light mb-1 text-xs font-bold tracking-widest uppercase opacity-80"
+								>
+									Match Result
+								</p>
+								<h1 class="text-4xl leading-tight font-black tracking-tight">YOU WON</h1>
+								<p class="text-positive-light text-sm font-medium">League Record: 12-4-0</p>
+							</div>
+							<div
+								class="bg-primary-container flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 shadow-lg"
+							>
+								<span
+									class="material-symbols-outlined text-white"
+									style="font-variation-settings: 'FILL' 1"
+									>stars</span
+								>
+								<span class="text-lg font-bold">+250 XP earned</span>
+							</div>
+						</div>
+						<div class="mt-8 flex items-center gap-12 border-t border-white/10 pt-6">
+							<div class="flex flex-col">
+								<span class="text-positive-light text-xs font-medium uppercase opacity-70"
+									>Your Score</span
+								>
+								<span class="text-5xl font-black">1,482</span>
+							</div>
+							<div class="text-2xl font-light opacity-50">VS</div>
+							<div class="flex flex-col">
+								<span class="text-positive-light text-xs font-medium uppercase opacity-70"
+									>Opponent Score</span
+								>
+								<span class="text-5xl font-black opacity-80">1,215</span>
+							</div>
+						</div>
+					</div>
+					<!-- Abstract visual element -->
+					<div
+						class="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 transform opacity-10"
+					>
+						<span class="material-symbols-outlined" style="font-size: 240px">emoji_events</span>
+					</div>
+				</div>
+				<!-- Detailed Picks Breakdown -->
+				<div class="bg-surface-card border-border-default overflow-hidden rounded-xl border">
+					<div
+						class="px-internal-padding border-border-default bg-surface-container-low flex items-center justify-between border-b py-3"
+					>
+						<h2 class="text-h2 font-h2 text-on-surface">Picks Breakdown</h2>
+						<span class="text-neutral-muted text-xs font-medium">Daily Contest #482</span>
+					</div>
+					<div class="overflow-x-auto">
+						<table class="w-full border-collapse text-left">
+							<thead>
+								<tr
+									class="bg-surface-container-lowest text-micro-label text-neutral-muted border-border-default border-b tracking-wider uppercase"
+								>
+									<th class="px-internal-padding py-3 font-medium">Sector</th>
+									<th class="px-internal-padding py-3 font-medium">Your Pick</th>
+									<th class="px-internal-padding py-3 text-right font-medium">24h %</th>
+									<th class="px-internal-padding py-3 font-medium">vs Opponent</th>
+									<th class="px-internal-padding py-3 text-right font-medium">Pts Contribution</th>
+								</tr>
+							</thead>
+							<tbody class="divide-border-default divide-y">
+								<tr class="hover:bg-surface-container-lowest transition-colors">
+									<td class="px-internal-padding py-3">
+										<span
+											class="bg-positive-light text-sector-l1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase"
+											>L1</span
+										>
+									</td>
+									<td class="px-internal-padding font-token-symbol text-token-symbol py-3">SOL</td>
+									<td class="px-internal-padding text-positive-main py-3 text-right font-medium">
+										+8.4%
+									</td>
+									<td class="px-internal-padding text-secondary-info py-3">ETH (+1.2%)</td>
+									<td class="px-internal-padding text-on-surface py-3 text-right font-bold">
+										+420
+									</td>
+								</tr>
+								<tr class="hover:bg-surface-container-lowest transition-colors">
+									<td class="px-internal-padding py-3">
+										<span
+											class="bg-negative-light text-sector-meme rounded-full px-2 py-0.5 text-[10px] font-bold uppercase"
+											>Meme</span
+										>
+									</td>
+									<td class="px-internal-padding font-token-symbol text-token-symbol py-3">PEPE</td>
+									<td class="px-internal-padding text-positive-main py-3 text-right font-medium">
+										+15.2%
+									</td>
+									<td class="px-internal-padding text-secondary-info py-3">DOGE (-2.1%)</td>
+									<td class="px-internal-padding text-on-surface py-3 text-right font-bold">
+										+612
+									</td>
+								</tr>
+								<tr class="hover:bg-surface-container-lowest bg-primary-fixed/20 transition-colors">
+									<td class="px-internal-padding py-3">
+										<span
+											class="bg-primary-fixed text-sector-defi rounded-full px-2 py-0.5 text-[10px] font-bold uppercase"
+											>DeFi</span
+										>
+									</td>
+									<td class="px-internal-padding font-token-symbol text-token-symbol py-3">AAVE</td>
+									<td class="px-internal-padding text-positive-main py-3 text-right font-medium">
+										+3.1%
+									</td>
+									<td class="px-internal-padding text-secondary-info py-3">UNI (+4.5%)</td>
+									<td class="px-internal-padding text-on-surface py-3 text-right font-bold">
+										+180
+									</td>
+								</tr>
+								<tr class="hover:bg-surface-container-lowest transition-colors">
+									<td class="px-internal-padding py-3">
+										<span
+											class="text-sector-l2 rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-bold uppercase"
+											>L2</span
+										>
+									</td>
+									<td class="px-internal-padding font-token-symbol text-token-symbol py-3">ARB</td>
+									<td class="px-internal-padding text-negative-main py-3 text-right font-medium">
+										-1.4%
+									</td>
+									<td class="px-internal-padding text-secondary-info py-3">OP (-0.8%)</td>
+									<td class="px-internal-padding text-on-surface py-3 text-right font-bold">+85</td>
+								</tr>
+								<tr class="hover:bg-surface-container-lowest transition-colors">
+									<td class="px-internal-padding py-3">
+										<span
+											class="text-sector-wildcard rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-bold uppercase"
+											>Wild</span
+										>
+									</td>
+									<td class="px-internal-padding font-token-symbol text-token-symbol py-3">RNDR</td>
+									<td class="px-internal-padding text-positive-main py-3 text-right font-medium">
+										+5.7%
+									</td>
+									<td class="px-internal-padding text-secondary-info py-3">TAO (+2.2%)</td>
+									<td class="px-internal-padding text-on-surface py-3 text-right font-bold">
+										+185
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- AI Breakdown Block -->
+				<div
+					class="bg-surface-card border-border-default border-l-primary rounded-xl border border-l-4 p-6 shadow-sm"
+				>
+					<div class="mb-4 flex items-center gap-2">
+						<span class="material-symbols-outlined text-primary" data-icon="auto_awesome"
+							>auto_awesome</span
+						>
+						<h3 class="text-primary text-xs font-bold tracking-wider uppercase">
+							powered by SoSoValue research feeds
+						</h3>
+					</div>
+					<div class="text-on-surface-variant font-body space-y-3 leading-relaxed">
+						<p>
+							Your victory was anchored by high-conviction exposure to the Meme sector, specifically
+							<strong>PEPE</strong>, which benefited from a sudden whale accumulation spike
+							identified in the SoSoValue research dashboard earlier today. While the broader market
+							remained flat, retail sentiment shifted aggressively toward high-beta assets.
+						</p>
+						<p>
+							In the L1 sector, your <strong>SOL</strong> pick outperformed the opponent's ETH
+							position as ETF net inflows for Solana-based ecosystem funds hit a 14-day high,
+							driving liquidity into the parent asset. Your only underperformer was
+							<strong>ARB</strong>, which faced slight selling pressure following a scheduled token
+							unlock, though it was mitigated by your opponent's equally weak performance in the L2
+							category.
+						</p>
+						<p>
+							Overall, your lineup capitalized on the "Whale Watch" alerts from the pre-game
+							intelligence briefing, turning institutional flow data into a definitive competitive
+							edge.
+						</p>
+					</div>
+				</div>
+				<!-- Action Row -->
+				<div class="flex flex-col gap-3 pt-4 sm:flex-row">
+					<button
+						class="border-outline text-secondary hover:bg-secondary-container flex h-12 flex-1 items-center justify-center gap-2 rounded-lg border text-sm font-bold transition-colors"
+					>
+						<span class="material-symbols-outlined">leaderboard</span>
+						View League Standings
+					</button>
+					<button
+						class="bg-primary text-on-primary hover:bg-primary-container flex h-12 flex-[1.5] items-center justify-center gap-2 rounded-lg text-sm font-bold shadow-md transition-all"
+					>
+						Draft Again
+						<span class="material-symbols-outlined">north_east</span>
+					</button>
+				</div>
+				<!-- Featured Research Image for Context -->
+				<div
+					class="border-border-default group relative mt-8 h-48 cursor-pointer overflow-hidden rounded-xl border"
+				>
+					<img
+						class="h-full w-full object-cover opacity-40 grayscale transition-all duration-700 group-hover:opacity-100 group-hover:grayscale-0"
+						data-alt="A sophisticated data visualization dashboard showing crypto market trends with glowing purple and teal lines against a clean white background. The lighting is crisp and modern, reflecting a high-tech institutional research environment. The visual style is clinical yet strategically empowering, aligning with the SoSoValue brand identity."
+						src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZaqtokRKtsdx6plgXUyB9U8LyFS1MgE9y-dgPN4cDM3LxgGw6Q1z3oTGsdVN5WcH345z5_jxGEe5IHlRJRT2XYT7VE6QB0n5GSpEMAco4afwzQNR6Gc9_n8ED_CjaHXSMs0C_2NMxWAzixb5JdXfeGcCpfs9PWFMxh2WaCSilzCvgcl0k0DjChzC20YDisZ8Fo4SMyrZLqvNwt3n3QSUWUr7FE8pJZ59gAKLmOtnoZtqlfQrsTWLcx_RxE8LHl9xzxG24jyVfKEU"
+					/>
+					<div
+						class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-4"
+					>
+						<span class="text-sm font-bold text-white">New Research Available</span>
+						<p class="text-xs text-white/80">Unlock your next 'cheat code' in the Research Hub</p>
+					</div>
+				</div>
+			</main>
+			<!-- Footer Info -->
+			<footer class="p-6 text-center">
+				<p class="text-micro-label text-neutral-muted tracking-widest uppercase">
+					© 2026 SoSoValue Fantasy League • Wave 1 Buildathon
+				</p>
+			</footer>
+		</div>
+	</body>
+</html>

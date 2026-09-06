@@ -1,0 +1,231 @@
+@import 'tailwindcss';
+
+/* ─── Design tokens — CoinDraft design handoff (light-only, Aug 2026) ──────
+   Every color used anywhere in the app is defined ONCE here. Change a value
+   in this block and it propagates everywhere — nothing below this file
+   should ever hardcode a hex value. */
+
+:root {
+	/* Raw palette */
+	--color-ink: #1a2421;
+	--color-page: #f5fafa;
+	--color-surface: #ffffff;
+	--color-surface-alt: #edf3f2;
+	--color-border: #e1e8e6;
+	--color-border-strong: #cfdcd8;
+	--color-text-muted: #5c6b66;
+	--color-text-body: #3b4a45;
+
+	--color-coral: #f78e79;
+	--color-coral-ink: #b04a32;
+	--color-mint: #68c2a8;
+	--color-mint-ink: #1f7a63;
+	--color-red: #e87070;
+	--color-red-ink: #b23a3a;
+	--color-amber: #f7c978;
+	--color-amber-ink: #8a5b12;
+	--color-blue: #5fa8d8;
+	--color-sky: #81bbe3;
+	--color-blue-ink: #2a6e96;
+
+	--color-hover: rgba(26, 36, 33, 0.04);
+}
+
+@theme {
+	/* Brand */
+	--color-primary: var(--color-coral);
+	--color-primary-ink: var(--color-coral-ink);
+	--color-primary-hover: #ff8a5f;
+	--color-primary-muted: rgba(247, 142, 121, 0.14);
+
+	/* Semantic */
+	--color-positive: var(--color-mint);
+	--color-positive-ink: var(--color-mint-ink);
+	--color-negative: var(--color-red);
+	--color-negative-ink: var(--color-red-ink);
+	--color-warning: var(--color-amber);
+	--color-warning-ink: var(--color-amber-ink);
+
+	/* Sector palette — L1/DeFi double as positive/warning; Meme intentionally
+	   shares the brand coral (see design handoff README). */
+	--color-sector-l1: var(--color-mint);
+	--color-sector-l1-ink: var(--color-mint-ink);
+	--color-sector-l2: var(--color-blue);
+	--color-sector-l2-ink: var(--color-blue-ink);
+	--color-sector-defi: var(--color-amber);
+	--color-sector-defi-ink: var(--color-amber-ink);
+	--color-sector-meme: var(--color-coral);
+	--color-sector-meme-ink: var(--color-coral-ink);
+	--color-sector-wildcard: var(--color-sky);
+	--color-sector-wildcard-ink: var(--color-blue-ink);
+
+	/* Surfaces */
+	--color-bg: var(--color-page);
+	--color-surface: var(--color-surface);
+	--color-surface-alt: var(--color-surface-alt);
+	--color-surface-raised: var(--color-surface);
+	--color-border: var(--color-border);
+	--color-border-strong: var(--color-border-strong);
+	--color-hover: var(--color-hover);
+
+	/* Text */
+	--color-text: var(--color-ink);
+	--color-text-secondary: var(--color-text-muted);
+	--color-text-muted: var(--color-text-muted);
+	--color-text-body: var(--color-text-body);
+
+	/* Fonts */
+	--font-sans: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+	/* Type scale — semantic sizes layered on top of Tailwind's default scale */
+	--font-size-display: 2.5rem; /* 40px — hero numbers, big win/loss states */
+	--font-size-display--line-height: 1.1;
+	--font-size-title: 1.5rem; /* 24px — page/section titles */
+	--font-size-title--line-height: 1.2;
+	--font-size-body: 0.875rem; /* 14px — default body text */
+	--font-size-caption: 0.75rem; /* 12px — labels, metadata */
+	--font-size-micro: 0.6875rem; /* 11px — uppercase eyebrow labels */
+
+	/* Spacing scale — semantic gaps used across card/section layouts */
+	--spacing-card: 1rem; /* 16px */
+	--spacing-section: 0.75rem; /* 12px */
+}
+
+body {
+	background: var(--color-bg);
+	color: var(--color-text);
+	font-family: var(--font-sans);
+}
+
+/* ─── Recurring composite treatments ────────────────────────────────────── */
+
+.frost-panel {
+	background: linear-gradient(160deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.48));
+	backdrop-filter: blur(18px) saturate(1.35);
+	-webkit-backdrop-filter: blur(18px) saturate(1.35);
+	border: 1px solid rgba(225, 232, 230, 0.95);
+}
+
+.dot-grid {
+	background-image: radial-gradient(rgba(10, 10, 10, 0.13) 1.2px, transparent 1.2px);
+	background-size: 22px 22px;
+}
+
+.hero-coral {
+	background: var(--color-coral);
+	color: var(--color-ink);
+	box-shadow: 0 0 90px rgba(247, 142, 121, 0.3);
+}
+
+/* ─── Keyframes ──────────────────────────────────────────────────────────
+   Reduced-motion users get opacity fades only; marquee/pulse/float/bounce
+   are disabled below. */
+
+@keyframes cd-marquee {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-50%);
+	}
+}
+@keyframes cd-pulse {
+	0% {
+		transform: scale(0.7);
+		opacity: 0.9;
+	}
+	100% {
+		transform: scale(1.6);
+		opacity: 0;
+	}
+}
+@keyframes cd-blink {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.25;
+	}
+}
+@keyframes cd-bounce {
+	0%,
+	80%,
+	100% {
+		transform: translateY(0);
+		opacity: 0.4;
+	}
+	40% {
+		transform: translateY(-5px);
+		opacity: 1;
+	}
+}
+@keyframes cd-sheen {
+	from {
+		background-position: -240px 0;
+	}
+	to {
+		background-position: 240px 0;
+	}
+}
+@keyframes cd-rise {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+@keyframes cd-float {
+	0%,
+	100% {
+		transform: translateY(0) rotate(-3.5deg);
+	}
+	50% {
+		transform: translateY(-14px) rotate(-3.5deg);
+	}
+}
+@keyframes cd-float2 {
+	0%,
+	100% {
+		transform: translateY(0) rotate(4deg);
+	}
+	50% {
+		transform: translateY(-10px) rotate(4deg);
+	}
+}
+
+.anim-marquee {
+	animation: cd-marquee 34s linear infinite;
+}
+.anim-pulse {
+	animation: cd-pulse 2.6s ease-out infinite;
+}
+.anim-blink {
+	animation: cd-blink 1.6s ease-in-out infinite;
+}
+.anim-bounce {
+	animation: cd-bounce 1.2s ease-in-out infinite;
+}
+.anim-rise {
+	animation: cd-rise 0.7s ease both;
+}
+.anim-float {
+	animation: cd-float 7s ease-in-out infinite;
+}
+.anim-float2 {
+	animation: cd-float2 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.anim-marquee,
+	.anim-pulse,
+	.anim-bounce,
+	.anim-float,
+	.anim-float2 {
+		animation: none !important;
+	}
+}

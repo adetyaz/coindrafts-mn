@@ -1,0 +1,8 @@
+node_modules
+artifacts
+cache
+typechain-types
+.env
+
+# deployed-addresses.json is intentionally NOT ignored — it's the visible,
+# committed proof of what's deployed where (see submission-readiness.md).
