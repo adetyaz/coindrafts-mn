@@ -1,0 +1,147 @@
+// ============================================================================
+// CoinDraft KYC Attestation — proof-of-setup contract
+// ============================================================================
+//
+// A lightweight age gate for the game: prove a player is 18+, nothing more.
+// This is deliberately NOT identity verification — there is no issuer, no
+// document check, and nothing here validates a government ID against anything.
+// So no ID number is collected: it would be friction and disclosure surface
+// for zero actual assurance.
+//
+//   PRIVATE (witness-held, never on-chain in plaintext):
+//     full name, birth year, country, salt, identity secret key
+//
+//   PUBLIC (ledger):
+//     participantId  — domain-separated hash of the identity secret
+//     commitment     — persistentCommit over the whole private bundle
+//     isOver18       — the single derived boolean that is deliberately disclosed
+//
+// The birth year itself never crosses a disclosure boundary. Only the result
+// of comparing it against a publicly pinned cutoff does.
+// ============================================================================
+
+pragma language_version >= 0.23 && <= 0.23;
+
+import CompactStandardLibrary;
+
+// ----------------------------------------------------------------------------
+// Types
+// ----------------------------------------------------------------------------
+
+// What a participant's on-chain record looks like. Note that the only
+// human-readable field is the boolean — everything else is opaque bytes.
+export struct KycRecord {
+  commitment: Bytes<32>;
+  isOver18: Boolean;
+}
+
+// ----------------------------------------------------------------------------
+// Ledger state
+// ----------------------------------------------------------------------------
+
+// Keyed by a securely-derived participant identity (see deriveParticipantId).
+export ledger records: Map<Bytes<32>, KycRecord>;
+
+// How many attestations have been submitted. Public, non-identifying.
+export ledger submissionCount: Counter;
+
+// The birth year at or before which a participant counts as an adult.
+// Pinned at deploy so the meaning of `isOver18` is publicly auditable — if the
+// cutoff were a private circuit parameter, an observer could not tell what the
+// boolean actually asserts. `sealed` makes it immutable after construction.
+export sealed ledger adultBirthYearCutoff: Uint<16>;
+
+// ----------------------------------------------------------------------------
+// Witnesses — implemented in TypeScript, run on the prover's machine only
+// ----------------------------------------------------------------------------
+
+// The participant's long-lived identity secret. Never leaves the prover.
+// This is the basis of identity: NOT ownPublicKey(), which is prover-supplied
+// and therefore forgeable (see compact-security: witness trust boundary).
+witness kycSecretKey(): Bytes<32>;
+
+// The private identity bundle.
+witness kycFullName(): Bytes<32>; // UTF-8, zero-padded
+
+witness kycBirthYear(): Uint<16>;
+
+witness kycCountry(): Bytes<32>; // UTF-8 country name or ISO code, padded
+
+// Per-participant commitment randomness. Without this the commitment would be
+// brute-forceable over the (small) space of plausible identity bundles.
+witness kycSalt(): Bytes<32>;
+
+// ----------------------------------------------------------------------------
+// Helper circuits
+// ----------------------------------------------------------------------------
+
+// Derive the public participant identity from the identity secret.
+// Domain-separated so this hash can never collide with the commitment domain
+// or with any other hash this contract (or another) computes over the same key.
+export pure circuit deriveParticipantId(sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<2, Bytes<32>>>([pad(32, "coindraft:kyc:participant:v1"), sk]);
+}
+
+// Commit to the entire private bundle under a distinct domain separator.
+// persistentCommit (not a bare persistentHash) gives the hiding property:
+// the salt makes the commitment indistinguishable from random even though the
+// underlying fields are drawn from a guessable space.
+export pure circuit computeBundleCommitment(
+                      fullName: Bytes<32>,
+                      birthYear: Uint<16>,
+                      country: Bytes<32>,
+                      salt: Bytes<32>
+                      ): Bytes<32> {
+  const birthYearBytes = (birthYear as Field) as Bytes<32>;
+  return persistentCommit<Vector<4, Bytes<32>>>(
+           [pad(32, "coindraft:kyc:bundle:v1"), fullName, birthYearBytes, country],
+           salt
+           );
+}
+
+// ----------------------------------------------------------------------------
+// Constructor
+// ----------------------------------------------------------------------------
+
+constructor(cutoffBirthYear: Uint<16>) {
+  // Constructor parameters carry witness taint; pinning the cutoff into public
+  // ledger state is a deliberate, necessary disclosure.
+  adultBirthYearCutoff = disclose(cutoffBirthYear);
+}
+
+// ----------------------------------------------------------------------------
+// The one entry point
+// ----------------------------------------------------------------------------
+
+export circuit submitKyc(): [] {
+  // --- Identity, derived inside the circuit from the witness secret ---
+  const participantId = deriveParticipantId(kycSecretKey());
+
+  // --- Pull the private bundle ---
+  const fullName = kycFullName();
+  const birthYear = kycBirthYear();
+  const country = kycCountry();
+  const salt = kycSalt();
+
+  // --- Commitment. No disclose() needed: persistentCommit clears witness
+  //     taint on both its input and its output, because the commitment
+  //     cryptographically hides what went into it. ---
+  const commitment = computeBundleCommitment(fullName, birthYear, country, salt);
+
+  // --- The selective disclosure. The comparison runs inside the proof over
+  //     the real birth year; only its boolean result is disclosed. The birth
+  //     year itself never reaches a public boundary. ---
+  const isOver18 = birthYear <= adultBirthYearCutoff;
+
+  // --- One attestation per identity. disclose() on participantId: map keys
+  //     are public by construction, and a stable public pseudonym is the
+  //     point of the identity derivation. ---
+  assert(!records.member(disclose(participantId)), "KYC already submitted for this identity");
+
+  records.insert(
+    disclose(participantId),
+    KycRecord { commitment: commitment, isOver18: disclose(isOver18) }
+    );
+
+  submissionCount.increment(1);
+}

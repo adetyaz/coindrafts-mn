@@ -20,7 +20,8 @@ import {
 	solana,
 	solanaDevnet
 } from '@reown/appkit/networks';
-import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
+import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
 import { PUBLIC_REOWN_PROJECT_ID } from '$env/static/public';
 
 const PROJECT_ID = PUBLIC_REOWN_PROJECT_ID;

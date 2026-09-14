@@ -7,6 +7,12 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY ?? '';
 // 0G Chain — evmVersion MUST be "cancun", no other value works.
 // Testnet: Galileo, chainId 16602. Mainnet: chainId 16661.
 const config: HardhatUserConfig = {
+	// Hardhat's default source dir is "./contracts" — since this whole project's
+	// own root folder is already named "contracts", that default produced a
+	// confusing contracts/contracts nesting. Sources renamed to src/ instead.
+	paths: {
+		sources: './src'
+	},
 	solidity: {
 		version: '0.8.24',
 		settings: {

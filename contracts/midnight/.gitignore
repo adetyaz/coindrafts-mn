@@ -1,0 +1,4 @@
+node_modules/
+src/managed/
+.dapp-state/
+midnight-level-db/

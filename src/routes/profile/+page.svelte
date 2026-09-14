@@ -8,6 +8,8 @@
 	import { ACHIEVEMENTS_ABI } from '$lib/achievementsAbi';
 	import { badgeImagePath } from '$lib/achievementArt';
 	import { resolve } from '$app/paths';
+	import { getConnectedWallet, hasMidnightIdentity, deriveMidnightSeed } from '$lib/midnightWallet';
+	import { checkKycVerified } from '$lib/midnight/kyc';
 
 	type Me = { id: string; username: string; xpTotal: number; paperXpTotal: number; streak: number };
 	type Contest = Record<string, unknown>;
@@ -29,6 +31,28 @@
 	let achievementsConfigured = $state(true);
 	let claimable = $state<ClaimableAchievement[]>([]);
 	let claimingTypeId = $state<number | null>(null);
+
+	// Whether this player has a submitted, on-chain-provable KYC attestation
+	// (Midnight KycAttestation.compact — see contracts/midnight/). Read
+	// directly from the deployed contract's on-chain ledger state (via the
+	// indexer), keyed by the participant id derived from this browser's
+	// cached Midnight identity — see $lib/midnight/kyc.ts's checkKycVerified()
+	// for why this never trusts a client-reported boolean. Stays false if
+	// there's no connected wallet or no identity derived yet on this device —
+	// that's the honest default, not a placeholder.
+	let kycVerified = $state(false);
+
+	async function loadKycStatus() {
+		try {
+			const wallet = getConnectedWallet();
+			if (!wallet || !hasMidnightIdentity(wallet.address)) return;
+			const { seed } = await deriveMidnightSeed(); // cached — does not prompt a signature
+			const status = await checkKycVerified(seed);
+			kycVerified = status?.submitted === true && status.isOver18 === true;
+		} catch {
+			/* leave kycVerified false — a failed check shouldn't break the rest of the profile page */
+		}
+	}
 
 	async function loadClaimableAchievements() {
 		try {
@@ -96,6 +120,7 @@
 				myRank = rows.find((r) => r.isMe)?.rank ?? null;
 			}
 			void loadClaimableAchievements();
+			void loadKycStatus();
 			if (leaguesRes.ok) {
 				const data = await leaguesRes.json();
 				myLeagues = data.mine ?? [];
@@ -237,6 +262,36 @@
 							</div>
 						{/each}
 					</div>
+				</div>
+
+				<div class="rounded-[20px] border border-border bg-surface p-6">
+					<div class="mb-1 flex items-center justify-between">
+						<div class="text-[11px] font-extrabold tracking-[0.12em] text-text-muted uppercase">
+							Privacy — age verification
+						</div>
+						<span
+							class="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase"
+							style={kycVerified
+								? 'background:var(--color-primary-muted);color:var(--color-primary-ink)'
+								: 'background:var(--color-surface-alt);color:var(--color-text-muted)'}
+						>
+							{kycVerified ? 'Verified' : 'Not verified'}
+						</span>
+					</div>
+					<p class="mb-4 max-w-[52ch] text-[13px] text-text-muted">
+						{kycVerified
+							? "You've proven you're 18+ — required for wagering. Your name and birth year never touched our servers; only the proof did."
+							: 'Required before wagering. A real cryptographic proof that you\'re 18+, not a checkbox — your name and birth year are never sent to us, only the proof.'}
+					</p>
+					<a
+						href={resolve('/profile/kyc')}
+						class="inline-flex h-11 items-center justify-center rounded-full px-5 text-xs font-extrabold no-underline transition"
+						style={kycVerified
+							? 'background:var(--color-surface-alt);color:var(--color-text)'
+							: 'background:var(--color-primary);color:var(--color-text)'}
+					>
+						{kycVerified ? 'Update your info' : 'Update your info →'}
+					</a>
 				</div>
 
 				{#if achievementsConfigured && claimable.length > 0}
