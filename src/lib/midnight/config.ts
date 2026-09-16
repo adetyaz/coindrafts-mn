@@ -19,7 +19,8 @@ import {
 	PUBLIC_MIDNIGHT_KYC_CONTRACT_ADDRESS_LOCAL,
 	PUBLIC_MIDNIGHT_KYC_CONTRACT_ADDRESS_PREVIEW,
 	PUBLIC_MIDNIGHT_KYC_CUTOFF_BIRTH_YEAR,
-	PUBLIC_MIDNIGHT_NETWORK
+	PUBLIC_MIDNIGHT_NETWORK,
+	PUBLIC_MIDNIGHT_PROOF_SERVER_URL
 } from '$env/static/public';
 
 export type MidnightNetworkId = 'undeployed' | 'preview';
@@ -38,8 +39,12 @@ export const MIDNIGHT_INDEXER_WS_URL =
 		? 'wss://indexer.preview.midnight.network/api/v4/graphql/ws'
 		: 'ws://127.0.0.1:8088/api/v4/graphql/ws';
 
-// Always local — see the file-level comment above.
-export const MIDNIGHT_PROOF_SERVER_URL = 'http://127.0.0.1:6300';
+// Proving itself is always local to whatever machine runs the prover — but
+// unlike a dev machine, a deployed server (e.g. Vercel) has no local prover
+// process, so this points at a publicly hosted proof server instead. Set
+// PUBLIC_MIDNIGHT_PROOF_SERVER_URL in .env; defaults to the standard local
+// devnet prover port for anyone who hasn't set it.
+export const MIDNIGHT_PROOF_SERVER_URL = PUBLIC_MIDNIGHT_PROOF_SERVER_URL || 'http://127.0.0.1:6300';
 
 // Forces a non-zero DUST fee — see contracts/midnight/scripts/lib/config.ts
 // for the full explanation (idle-devnet zero-fee txs are rejected as
