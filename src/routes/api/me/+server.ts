@@ -32,30 +32,63 @@ export async function GET({ cookies }) {
 		researchStreak: user.researchStreak,
 		freeHitsAvailable: user.freeHitsAvailable,
 		matchmakingStatus: user.matchmakingStatus,
-		activeBoosts: user.activeBoosts || []
+		activeBoosts: user.activeBoosts || [],
+		// Whether this account has linked a Midnight identity at all — not
+		// whether that identity is actually verified 18+ on-chain (that's
+		// re-checked independently, server-side, at wager-commit time; see
+		// src/lib/server/midnightKyc.ts). This is a UI hint only: enough for
+		// the client to show "complete verification" vs. proceed to commit.
+		midnightParticipantId: user.midnightParticipantId ?? null
 	});
 }
 
-// Display name only — the one field here that's genuinely public (shown on
-// leaderboards, results, everywhere). Everything else about "update your
-// info" (name/age/location for the age gate) goes through the Midnight
-// commitment flow instead, never through this endpoint.
+const PARTICIPANT_ID_HEX_RE = /^[0-9a-f]{64}$/;
+
+// Two independent, optional updates: the public display name, and linking
+// this account to a Midnight KYC identity (src/routes/profile/kyc/+page.svelte
+// calls this with `midnightParticipantId` right after a confirmed submitKyc
+// transaction). Everything else about "update your info" (name/age/location
+// for the age gate) goes through the Midnight commitment flow instead, never
+// through this endpoint — only the derived participantId ever lands here.
 export async function PATCH({ cookies, request }) {
 	const parsed = requireUser(cookies);
 	if (!parsed) return json({ error: 'Unauthorized' }, { status: 401 });
 
 	const body = await request.json().catch(() => null);
-	const username = typeof body?.username === 'string' ? body.username.trim() : '';
-	if (username.length < 2 || username.length > 24) {
-		return json({ error: 'Display name must be 2–24 characters.' }, { status: 400 });
+	const updates: { username?: string; midnightParticipantId?: string } = {};
+	const response: Record<string, unknown> = {};
+
+	if (body && 'username' in body) {
+		const username = typeof body.username === 'string' ? body.username.trim() : '';
+		if (username.length < 2 || username.length > 24) {
+			return json({ error: 'Display name must be 2–24 characters.' }, { status: 400 });
+		}
+		if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+			return json({ error: 'Letters, numbers, and underscores only.' }, { status: 400 });
+		}
+		updates.username = username;
+		response.username = username;
 	}
-	if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-		return json({ error: 'Letters, numbers, and underscores only.' }, { status: 400 });
+
+	if (body && 'midnightParticipantId' in body) {
+		const hex =
+			typeof body.midnightParticipantId === 'string'
+				? body.midnightParticipantId.trim().toLowerCase()
+				: '';
+		if (!PARTICIPANT_ID_HEX_RE.test(hex)) {
+			return json({ error: 'Invalid Midnight participant id.' }, { status: 400 });
+		}
+		updates.midnightParticipantId = hex;
+		response.midnightParticipantId = hex;
+	}
+
+	if (Object.keys(updates).length === 0) {
+		return json({ error: 'Nothing to update.' }, { status: 400 });
 	}
 
 	try {
-		await db.update(users).set({ username }).where(eq(users.id, parsed.userId));
-		return json({ username });
+		await db.update(users).set(updates).where(eq(users.id, parsed.userId));
+		return json(response);
 	} catch (e) {
 		// Postgres unique-violation on users.username — the only realistic
 		// failure mode here beyond the validation above.
@@ -63,6 +96,6 @@ export async function PATCH({ cookies, request }) {
 		if (message.includes('unique') || message.includes('duplicate')) {
 			return json({ error: 'That display name is already taken.' }, { status: 409 });
 		}
-		return json({ error: 'Could not update display name.' }, { status: 500 });
+		return json({ error: 'Could not update.' }, { status: 500 });
 	}
 }

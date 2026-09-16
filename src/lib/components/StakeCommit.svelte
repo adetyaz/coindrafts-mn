@@ -5,6 +5,14 @@
 	// they have. Because the wager settles at the LOWER of the two, raising can
 	// never cost you more than your own number, which is what makes this safe
 	// without a timer, a counter-offer, or any way to be pressured.
+	//
+	// Age gating used to be a self-reported checkbox here. It's now enforced
+	// server-side against the real on-chain KYC attestation (see
+	// src/lib/server/wager.ts / src/lib/server/midnightKyc.ts) — this component
+	// only needs to know whether the player has linked a Midnight identity at
+	// all, to either point them at /profile/kyc or let them proceed straight to
+	// committing, with nothing left here for them to re-assert.
+	import { resolve } from '$app/paths';
 	import { toast } from '$lib/toast';
 
 	type StakeState = {
@@ -14,7 +22,6 @@
 		status: string;
 		agreedAmount: number | null;
 		myCommit: number | null;
-		confirmedAdult: boolean;
 		opponentCommitted: boolean;
 		balance: number;
 	};
@@ -23,7 +30,9 @@
 
 	let stake = $state<StakeState | null>(null);
 	let amount = $state(0);
-	let adult = $state(false);
+	// null = still checking; a UI-only hint (which link/route to show) — the
+	// server independently re-verifies at commit time regardless of this value.
+	let hasMidnightIdentity = $state<boolean | null>(null);
 	let submitting = $state(false);
 	let error = $state('');
 	let poll: ReturnType<typeof setInterval> | null = null;
@@ -44,9 +53,21 @@
 		}
 	}
 
+	async function loadIdentity() {
+		try {
+			const res = await fetch('/api/me');
+			if (!res.ok) return;
+			const me = await res.json();
+			hasMidnightIdentity = Boolean(me?.midnightParticipantId);
+		} catch {
+			hasMidnightIdentity = false;
+		}
+	}
+
 	$effect(() => {
 		void stakeId;
 		load();
+		loadIdentity();
 		// Only to notice the opponent committing; this is not a countdown, and
 		// nothing expires.
 		poll = setInterval(load, 3000);
@@ -65,7 +86,7 @@
 			const res = await fetch(`/api/stake/${stakeId}/commit`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ amount, confirmedAdult: adult })
+				body: JSON.stringify({ amount })
 			});
 			const data = await res.json();
 			if (!res.ok) {
@@ -123,42 +144,56 @@
 				commits — so raising can never cost you more than you choose here.
 			</p>
 
-			<div class="mt-5 flex items-center gap-3">
-				<input
-					type="number"
-					bind:value={amount}
-					min={stake.tierAmount}
-					max={stake.balance}
-					step="5"
-					class="w-32 rounded-xl border border-border bg-surface-alt px-3.5 py-2.5 font-mono text-sm font-bold text-text"
-				/>
-				<span class="font-mono text-[12px] text-text-muted">
-					min {stake.tierAmount} · you have {stake.balance}
-				</span>
-			</div>
+			{#if hasMidnightIdentity === false}
+				<div class="mt-5 rounded-xl border border-border bg-surface-alt p-4">
+					<p class="text-[13px] text-text-muted">
+						Wagering requires identity verification first — a one-time, private, on-chain check
+						that you're 18 or over. Nothing beyond that yes/no is ever made public.
+					</p>
+					<a
+						href={resolve('/profile/kyc')}
+						class="mt-3 inline-flex h-10 cursor-pointer items-center rounded-full bg-primary px-5 text-xs font-extrabold text-text no-underline transition hover:bg-primary-hover"
+					>
+						Complete verification
+					</a>
+				</div>
+			{:else}
+				<div class="mt-5 flex items-center gap-3">
+					<input
+						type="number"
+						bind:value={amount}
+						min={stake.tierAmount}
+						max={stake.balance}
+						step="5"
+						class="w-32 rounded-xl border border-border bg-surface-alt px-3.5 py-2.5 font-mono text-sm font-bold text-text"
+					/>
+					<span class="font-mono text-[12px] text-text-muted">
+						min {stake.tierAmount} · you have {stake.balance}
+					</span>
+				</div>
 
-			{#if !canAfford}
-				<p class="mt-2 text-[13px] text-negative-ink">
-					You only have {stake.balance} XP.
-				</p>
+				{#if !canAfford}
+					<p class="mt-2 text-[13px] text-negative-ink">
+						You only have {stake.balance} XP.
+					</p>
+				{/if}
+
+				{#if error}
+					<p class="mt-3 text-[13px] text-negative-ink">{error}</p>
+				{/if}
+
+				<button
+					onclick={commit}
+					disabled={submitting || !canAfford || hasMidnightIdentity !== true}
+					class="mt-5 h-12 w-full cursor-pointer rounded-full bg-primary text-sm font-extrabold text-text transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
+				>
+					{submitting
+						? 'Committing…'
+						: hasMidnightIdentity === null
+							? 'Checking verification…'
+							: `Commit ${amount} XP`}
+				</button>
 			{/if}
-
-			<label class="mt-4 flex cursor-pointer items-start gap-2.5 text-[13px] text-text-muted">
-				<input type="checkbox" bind:checked={adult} class="mt-0.5 cursor-pointer" />
-				<span>I confirm I am 18 or over.</span>
-			</label>
-
-			{#if error}
-				<p class="mt-3 text-[13px] text-negative-ink">{error}</p>
-			{/if}
-
-			<button
-				onclick={commit}
-				disabled={submitting || !adult || !canAfford}
-				class="mt-5 h-12 w-full cursor-pointer rounded-full bg-primary text-sm font-extrabold text-text transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
-			>
-				{submitting ? 'Committing…' : `Commit ${amount} XP`}
-			</button>
 		{/if}
 	</div>
 {/if}

@@ -18,7 +18,7 @@ import { createKycPrivateState, randomBytes32 } from '../src/witnesses/KycWitnes
 import { syncStaticAssets } from './sync-static-assets.js';
 
 const ROOT_ENV_PATH = new URL('../../../.env', import.meta.url).pathname;
-const ENV_KEY = 'PUBLIC_MIDNIGHT_KYC_CONTRACT_ADDRESS';
+const ENV_KEY = 'PUBLIC_MIDNIGHT_KYC_CONTRACT_ADDRESS_LOCAL';
 
 function upsertRootEnv(key: string, value: string): void {
 	const existing = fs.existsSync(ROOT_ENV_PATH) ? fs.readFileSync(ROOT_ENV_PATH, 'utf-8') : '';

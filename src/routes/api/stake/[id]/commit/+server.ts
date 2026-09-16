@@ -17,27 +17,28 @@ export async function POST({ params, request, cookies }) {
 
 	const body = await request.json().catch(() => ({}));
 	const amount = Number(body?.amount);
-	const confirmedAdult = body?.confirmedAdult === true;
 
 	if (!Number.isFinite(amount) || amount <= 0) {
 		return json({ error: 'A positive amount is required' }, { status: 400 });
 	}
 
-	const result = await commitToStake(stakeId, parsed.userId, amount, confirmedAdult);
+	const result = await commitToStake(stakeId, parsed.userId, amount);
 
 	if (!result.ok) {
 		const status =
-			result.reason === 'age_not_confirmed' ? 403 :
+			result.reason === 'kyc_required' || result.reason === 'kyc_not_verified' ? 403 :
 			result.reason === 'not_found' ? 404 :
 			result.reason === 'insufficient_balance' ? 402 : 400;
 		const message =
-			result.reason === 'age_not_confirmed'
-				? 'You must confirm you are 18 or over before staking.'
-				: result.reason === 'insufficient_balance'
-					? "One player couldn't cover the stake, so the wager was cancelled and nothing was taken."
-					: result.reason === 'already_committed'
-						? 'You have already committed to this wager.'
-						: result.reason;
+			result.reason === 'kyc_required'
+				? 'Complete identity verification before wagering.'
+				: result.reason === 'kyc_not_verified'
+					? 'Your identity verification could not be confirmed on-chain. Try again shortly, or re-submit at /profile/kyc.'
+					: result.reason === 'insufficient_balance'
+						? "One player couldn't cover the stake, so the wager was cancelled and nothing was taken."
+						: result.reason === 'already_committed'
+							? 'You have already committed to this wager.'
+							: result.reason;
 		return json({ error: message, reason: result.reason }, { status });
 	}
 

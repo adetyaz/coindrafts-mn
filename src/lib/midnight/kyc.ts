@@ -15,11 +15,14 @@
 // because a real, network-confirmed submitKyc transaction wrote it — not
 // because a client asserted it.
 
-import { CompiledContract, type ProvableCircuitId } from '@midnight-ntwrk/compact-js';
-import { findDeployedContract } from '@midnight-ntwrk/midnight-js-contracts';
-import { httpClientProofProvider } from '@midnight-ntwrk/midnight-js-http-client-proof-provider';
-import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
-import { FetchZkConfigProvider } from '@midnight-ntwrk/midnight-js-fetch-zk-config-provider';
+// Only TYPE-ONLY imports of these `@midnight-ntwrk/midnight-js-*` /
+// `compact-js` packages live at module scope; every runtime VALUE is loaded
+// lazily below (memoized dynamic imports). Not required for THIS file's own
+// direct dependencies (verified via `npm ls web-worker`: none of them touch
+// it), but kept consistent with $lib/midnightWallet.ts, which this file
+// imports and which does have a hard requirement here — see that file's
+// "Lazy SDK loaders" comment for the actual bug.
+import type { CompiledContract, ProvableCircuitId } from '@midnight-ntwrk/compact-js';
 import type {
 	MidnightProvider,
 	PrivateStateProvider,
@@ -55,6 +58,25 @@ function assertBrowser(fnName: string): void {
 	}
 }
 
+// ── Lazy SDK loaders ─────────────────────────────────────────────────────
+function memoizedImport<T>(loader: () => Promise<T>): () => Promise<T> {
+	let promise: Promise<T> | null = null;
+	return () => {
+		if (!promise) promise = loader();
+		return promise;
+	};
+}
+
+const loadCompactJs = memoizedImport(() => import('@midnight-ntwrk/compact-js'));
+const loadContracts = memoizedImport(() => import('@midnight-ntwrk/midnight-js-contracts'));
+const loadProofProvider = memoizedImport(() => import('@midnight-ntwrk/midnight-js-http-client-proof-provider'));
+const loadIndexerProvider = memoizedImport(
+	() => import('@midnight-ntwrk/midnight-js-indexer-public-data-provider')
+);
+const loadZkConfigProvider = memoizedImport(
+	() => import('@midnight-ntwrk/midnight-js-fetch-zk-config-provider')
+);
+
 // ── Compiled contract binding ────────────────────────────────────────────
 // Same instantiation-expression + scoped-cast pattern as
 // contracts/midnight/scripts/lib/contract.ts, and for the same reason: the
@@ -66,7 +88,8 @@ function assertBrowser(fnName: string): void {
 const KycContractCtor = Contract<KycPrivateState>;
 type KycContract = InstanceType<typeof KycContractCtor>;
 
-function loadCompiledContract(): CompiledContract.CompiledContract<KycContract, KycPrivateState> {
+async function loadCompiledContract(): Promise<CompiledContract.CompiledContract<KycContract, KycPrivateState>> {
+	const { CompiledContract } = await loadCompactJs();
 	const make = CompiledContract.make as (tag: string, ctor: unknown) => unknown;
 	const withAssets = CompiledContract.withCompiledFileAssets as (self: unknown, p: string) => unknown;
 	const withWit = CompiledContract.withWitnesses as (self: unknown, w: unknown) => unknown;
@@ -156,6 +179,9 @@ async function createWalletAndMidnightProvider(
 
 async function createBrowserProviders(session: MidnightWalletSession) {
 	const walletProvider = await createWalletAndMidnightProvider(session);
+	const [{ FetchZkConfigProvider }, { httpClientProofProvider }, { indexerPublicDataProvider }] =
+		await Promise.all([loadZkConfigProvider(), loadProofProvider(), loadIndexerProvider()]);
+
 	const zkConfigProvider = new FetchZkConfigProvider<ProvableCircuitId<KycContract>>(
 		window.location.origin,
 		window.fetch.bind(window)
@@ -204,7 +230,8 @@ export async function submitKyc(
 	const privateState = createKycPrivateState(identity, secretKey, salt);
 
 	const providers = await createBrowserProviders(session);
-	const compiledContract = loadCompiledContract();
+	const compiledContract = await loadCompiledContract();
+	const { findDeployedContract } = await loadContracts();
 
 	const found = await findDeployedContract(providers, {
 		contractAddress,
@@ -240,6 +267,7 @@ export async function checkKycVerified(seed: Uint8Array): Promise<KycStatus | nu
 	const secretKey = await kycSecretKeyFromSeed(seed);
 	const participantId = pureCircuits.deriveParticipantId(secretKey);
 
+	const { indexerPublicDataProvider } = await loadIndexerProvider();
 	const publicDataProvider = indexerPublicDataProvider(MIDNIGHT_INDEXER_HTTP_URL, MIDNIGHT_INDEXER_WS_URL);
 	const state = await publicDataProvider.queryContractState(contractAddress);
 	if (!state) return null;

@@ -142,6 +142,27 @@
 			});
 
 			submitTxId = result.txId;
+
+			// Link this account to the Midnight identity that just confirmed
+			// on-chain, so the server can independently re-check it later
+			// (src/lib/server/midnightKyc.ts) instead of trusting anything the
+			// client claims at wager time. Best-effort: the on-chain submission
+			// already succeeded and is the real source of truth, so a failure
+			// to save the link here shouldn't be reported as the verification
+			// itself failing — the wager flow will just ask again for the link.
+			try {
+				const linkRes = await fetch('/api/me', {
+					method: 'PATCH',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ midnightParticipantId: result.participantIdHex })
+				});
+				if (!linkRes.ok) {
+					console.error('Could not link Midnight identity to this account', await linkRes.json().catch(() => ({})));
+				}
+			} catch (linkError) {
+				console.error('Could not reach the server to link Midnight identity', linkError);
+			}
+
 			submitStage = 'done';
 			toast('Verification submitted and confirmed on-chain.', 'success');
 		} catch (e) {

@@ -9,7 +9,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "deploy:local": "tsx scripts/deploy-local.ts",
-    "fund:local": "tsx scripts/fund-player.ts"
+    "fund:local": "tsx scripts/fund-player.ts",
+    "preview:address": "MIDNIGHT_NETWORK=preview tsx scripts/show-preview-deployer-address.ts",
+    "deploy:preview": "MIDNIGHT_NETWORK=preview tsx scripts/deploy-preview.ts"
   },
   "dependencies": {
     "@midnight-ntwrk/compact-runtime": "0.16.0",

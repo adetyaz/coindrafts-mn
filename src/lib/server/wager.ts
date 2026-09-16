@@ -13,8 +13,9 @@
 // is waiting on someone else to decide, so nothing can hang.
 import { and, eq, inArray } from 'drizzle-orm';
 import { db } from '$lib/server/db';
-import { stakes, stakeParticipants, contests } from '$lib/server/schema';
+import { stakes, stakeParticipants, contests, users } from '$lib/server/schema';
 import { getSettlementProvider } from '$lib/server/settlement';
+import { checkKycVerifiedServer } from '$lib/server/midnightKyc';
 
 /**
  * Matching buckets. Kept few and coarse on purpose: every tier splits the
@@ -68,12 +69,7 @@ export async function createStakeForContest(
  * Private until everyone has committed: that's what makes this a blind commit
  * rather than a negotiation, and why raising can't be used to pressure anyone.
  */
-export async function commitToStake(
-	stakeId: string,
-	userId: string,
-	amount: number,
-	confirmedAdult: boolean
-) {
+export async function commitToStake(stakeId: string, userId: string, amount: number) {
 	const stake = await db
 		.select()
 		.from(stakes)
@@ -84,12 +80,32 @@ export async function commitToStake(
 	if (stake.status !== 'proposed') return { ok: false as const, reason: 'already_locked' };
 
 	// G-03 AC 1 — 18+ before any amount can be set. Checked per player, since
-	// each commits separately.
-	//
-	// NOTE: this is a self-report, not evidence — the client asserts it and the
-	// server takes its word. Making it a wallet-signed attestation is tracked in
-	// docs-project/whats-next.md.
-	if (!confirmedAdult) return { ok: false as const, reason: 'age_not_confirmed' };
+	// each commits separately, against the real on-chain KYC attestation
+	// (contracts/midnight/src/KycAttestation.compact) — never a client-supplied
+	// boolean. This used to be a self-report the server took on trust; it is
+	// now an independent read of confirmed on-chain state (see
+	// src/lib/server/midnightKyc.ts), so there is nothing left in this request
+	// for a player to lie about.
+	const account = await db
+		.select({ midnightParticipantId: users.midnightParticipantId })
+		.from(users)
+		.where(eq(users.id, userId))
+		.limit(1)
+		.then((r) => r[0] ?? null);
+
+	const participantId = account?.midnightParticipantId;
+	if (!participantId) return { ok: false as const, reason: 'kyc_required' };
+
+	let verified = false;
+	try {
+		const status = await checkKycVerifiedServer(participantId);
+		verified = status.submitted && status.isOver18;
+	} catch {
+		// Indexer unreachable, contract not deployed, malformed stored id —
+		// fail closed rather than defaulting to allowed.
+		verified = false;
+	}
+	if (!verified) return { ok: false as const, reason: 'kyc_not_verified' };
 
 	// You may raise above the tier, never below it — the tier is what both
 	// players were matched on, so dropping under it would break that agreement.

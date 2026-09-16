@@ -22,6 +22,16 @@ export const users = pgTable('users', {
 	xpTotal: integer('xp_total').default(0),
 	paperXpTotal: integer('paper_xp_total').default(0), // practice-mode XP, tracked separately from real XP
 	streak: integer('streak').default(0),
+	// Links this CoinDraft account to a Midnight identity derived from this
+	// wallet's signature (src/lib/midnightWallet.ts's deriveMidnightSeed +
+	// kycSecretKeyFromSeed), as the 32-byte participantId
+	// (KycAttestation.compact's deriveParticipantId), lowercase hex. Set by
+	// PATCH /api/me once submitKyc() confirms on-chain. Null until then — a
+	// player who hasn't verified has no row here at all, which is what lets
+	// the wager flow (src/lib/server/wager.ts) tell "never verified" apart
+	// from "verified but not yet over 18" without trusting anything the
+	// client asserts.
+	midnightParticipantId: text('midnight_participant_id'),
 	matchmakingStatus: text('matchmaking_status').default('idle'), // 'idle' | 'queued' | 'in_contest'
 	activeBoosts: jsonb('active_boosts').default('[]'), // [{ sector, expiresAt }]
 	createdAt: timestamp('created_at').defaultNow(),

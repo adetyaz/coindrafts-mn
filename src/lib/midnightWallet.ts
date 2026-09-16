@@ -17,23 +17,14 @@
 // wallet/provider, so re-deriving via a fresh signature on every use would be
 // fragile; caching after first derivation avoids that.
 
-import * as ledger from '@midnight-ntwrk/ledger-v8';
-import { HDWallet, Roles } from '@midnight-ntwrk/wallet-sdk-hd';
-import {
-	WalletFacade,
-	WalletEntrySchema,
-	type DefaultConfiguration
-} from '@midnight-ntwrk/wallet-sdk-facade';
-import { ShieldedWallet } from '@midnight-ntwrk/wallet-sdk-shielded';
-import {
-	UnshieldedWallet,
-	createKeystore,
-	PublicKey,
-	type UnshieldedKeystore
-} from '@midnight-ntwrk/wallet-sdk-unshielded-wallet';
-import { DustWallet } from '@midnight-ntwrk/wallet-sdk-dust-wallet';
-import { InMemoryTransactionHistoryStorage } from '@midnight-ntwrk/wallet-sdk-abstractions';
-import { setNetworkId } from '@midnight-ntwrk/midnight-js-network-id';
+// NOTE on the import shape below: only TYPE-ONLY imports of the Midnight SDK
+// live at module scope. Every runtime VALUE from these packages is loaded via
+// the memoized dynamic-import loaders further down instead of a top-level
+// `import`. This is load-bearing, not style — see the "Lazy SDK loaders"
+// comment below for why.
+import type * as ledger from '@midnight-ntwrk/ledger-v8';
+import type { WalletFacade, DefaultConfiguration } from '@midnight-ntwrk/wallet-sdk-facade';
+import type { UnshieldedKeystore } from '@midnight-ntwrk/wallet-sdk-unshielded-wallet';
 import * as Rx from 'rxjs';
 import { appKit } from '$lib/appkit';
 import {
@@ -52,16 +43,57 @@ function assertBrowser(fnName: string): void {
 	}
 }
 
-setNetworkIdOnce();
-function setNetworkIdOnce(): void {
-	// Safe at module scope: pure bookkeeping, no browser API touched, and the
-	// underlying call is idempotent. Every downstream SDK call reads the
+// ── Lazy SDK loaders ─────────────────────────────────────────────────────
+// @midnight-ntwrk/wallet-sdk-dust-wallet transitively depends on
+// wallet-sdk-capabilities -> wallet-sdk-prover-client -> web-worker@1.5.0
+// (confirmed via `npm ls web-worker` — this is the ONLY path to that package
+// in the whole dependency tree). web-worker's own module runs, at EVALUATION
+// TIME (not when a Worker is instantiated):
+//   typeof Worker === 'function' ? Worker : threads.isMainThread ? mainThread() : workerThread()
+// SvelteKit's postbuild route-analysis step (analyse.js) already runs inside
+// its OWN worker_thread (see sveltekit's fork.js), so `isMainThread` is
+// already false there. When analyse.js statically imports a route module
+// (every route, to inspect prerender/config exports) that transitively
+// imports web-worker, web-worker wrongly concludes it's a spawned worker
+// instance and crashes reading `workerData`, which was never meant for it.
+//
+// Fix: never let these packages' top-level code run during static/module
+// analysis — only import them once a player actually triggers wallet
+// functionality in the browser. Each loader is memoized so repeated calls
+// across different functions don't re-run the dynamic import.
+function memoizedImport<T>(loader: () => Promise<T>): () => Promise<T> {
+	let promise: Promise<T> | null = null;
+	return () => {
+		if (!promise) promise = loader();
+		return promise;
+	};
+}
+
+const loadLedger = memoizedImport(() => import('@midnight-ntwrk/ledger-v8'));
+const loadHdWallet = memoizedImport(() => import('@midnight-ntwrk/wallet-sdk-hd'));
+const loadWalletFacade = memoizedImport(() => import('@midnight-ntwrk/wallet-sdk-facade'));
+const loadShieldedWallet = memoizedImport(() => import('@midnight-ntwrk/wallet-sdk-shielded'));
+const loadUnshieldedWallet = memoizedImport(() => import('@midnight-ntwrk/wallet-sdk-unshielded-wallet'));
+const loadDustWallet = memoizedImport(() => import('@midnight-ntwrk/wallet-sdk-dust-wallet'));
+const loadAbstractions = memoizedImport(() => import('@midnight-ntwrk/wallet-sdk-abstractions'));
+const loadNetworkId = memoizedImport(() => import('@midnight-ntwrk/midnight-js-network-id'));
+
+let networkIdSet = false;
+async function setNetworkIdOnce(): Promise<void> {
+	// No longer runs at module scope (that used to eagerly import
+	// midnight-js-network-id — harmless on its own, but kept lazy for
+	// consistency with everything else in this section). Idempotent: every
+	// entry point below calls this first, and only the first call actually
+	// imports and invokes setNetworkId. Every downstream SDK call reads the
 	// network id via getNetworkId() rather than taking it as a parameter.
+	if (networkIdSet) return;
+	const { setNetworkId } = await loadNetworkId();
 	try {
 		setNetworkId(MIDNIGHT_NETWORK_ID);
 	} catch {
 		/* already set — fine */
 	}
+	networkIdSet = true;
 }
 
 // ── Connected wallet (EVM or Solana), via AppKit ────────────────────────────
@@ -220,11 +252,12 @@ export interface MidnightWalletSession {
 	stop(): Promise<void>;
 }
 
-function deriveRoleKeys(seed: Uint8Array): {
+async function deriveRoleKeys(seed: Uint8Array): Promise<{
 	zswap: Uint8Array;
 	nightExternal: Uint8Array;
 	dust: Uint8Array;
-} {
+}> {
+	const { HDWallet, Roles } = await loadHdWallet();
 	const hd = HDWallet.fromSeed(seed);
 	if (hd.type !== 'seedOk') throw new Error(`HDWallet.fromSeed failed: ${hd.type}`);
 	const derived = hd.hdWallet
@@ -246,10 +279,27 @@ function deriveRoleKeys(seed: Uint8Array): {
 /** Build and start a WalletFacade from a derived seed, against the local devnet. */
 export async function openMidnightWallet(seed: Uint8Array): Promise<MidnightWalletSession> {
 	assertBrowser('openMidnightWallet');
+	await setNetworkIdOnce();
 
-	const keys = deriveRoleKeys(seed);
-	const shieldedSecretKeys = ledger.ZswapSecretKeys.fromSeed(keys.zswap);
-	const dustSecretKey = ledger.DustSecretKey.fromSeed(keys.dust);
+	const keys = await deriveRoleKeys(seed);
+	const [
+		ledgerMod,
+		{ WalletFacade, WalletEntrySchema },
+		{ ShieldedWallet },
+		{ UnshieldedWallet, createKeystore, PublicKey },
+		{ DustWallet },
+		{ InMemoryTransactionHistoryStorage }
+	] = await Promise.all([
+		loadLedger(),
+		loadWalletFacade(),
+		loadShieldedWallet(),
+		loadUnshieldedWallet(),
+		loadDustWallet(),
+		loadAbstractions()
+	]);
+
+	const shieldedSecretKeys = ledgerMod.ZswapSecretKeys.fromSeed(keys.zswap);
+	const dustSecretKey = ledgerMod.DustSecretKey.fromSeed(keys.dust);
 	const keystore = createKeystore(keys.nightExternal, MIDNIGHT_NETWORK_ID);
 
 	const configuration: DefaultConfiguration = {
@@ -272,7 +322,7 @@ export async function openMidnightWallet(seed: Uint8Array): Promise<MidnightWall
 		shielded: (cfg) => ShieldedWallet(cfg).startWithSecretKeys(shieldedSecretKeys),
 		unshielded: (cfg) => UnshieldedWallet(cfg).startWithPublicKey(PublicKey.fromKeyStore(keystore)),
 		dust: (cfg) =>
-			DustWallet(cfg).startWithSecretKey(dustSecretKey, ledger.LedgerParameters.initialParameters().dust)
+			DustWallet(cfg).startWithSecretKey(dustSecretKey, ledgerMod.LedgerParameters.initialParameters().dust)
 	});
 
 	await facade.start(shieldedSecretKeys, dustSecretKey);
@@ -302,8 +352,6 @@ export type FundingStage =
 	| 'waiting-for-dust'
 	| 'ready';
 
-const NIGHT_TOKEN_TYPE = ledger.nativeToken().raw;
-
 async function waitForCondition<T>(
 	source: Rx.Observable<T>,
 	predicate: (value: T) => boolean,
@@ -318,6 +366,8 @@ export async function ensureFundedAndRegistered(
 ): Promise<void> {
 	assertBrowser('ensureFundedAndRegistered');
 	const { facade, keystore } = session;
+	const { nativeToken } = await loadLedger();
+	const NIGHT_TOKEN_TYPE = nativeToken().raw;
 
 	onProgress?.('checking');
 	let state = await facade.waitForSyncedState();
