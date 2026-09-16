@@ -35,7 +35,6 @@
 		"drizzle-orm": "^0.45.2",
 		"eslint": "^10.2.0",
 		"eslint-config-prettier": "^10.1.8",
-		"esbuild": "^0.25.12",
 		"eslint-plugin-svelte": "^3.17.0",
 		"globals": "^17.4.0",
 		"prettier": "^3.8.1",
