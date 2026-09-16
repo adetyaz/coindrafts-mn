@@ -1,4 +1,15 @@
 node_modules/
-src/managed/
 .dapp-state/
 midnight-level-db/
+
+# Compiled contract output is regenerable, so it's ignored by default — EXCEPT
+# the generated JS/TS bindings under kyc/contract/, which the app imports
+# directly at build time (src/lib/midnight/kyc.ts, src/lib/server/midnightKyc.ts
+# -> src/server/kycServerRead.ts). Vercel has no Compact compiler, so if these
+# aren't committed the build fails with UNRESOLVED_IMPORT. Same precedent as
+# contracts/ABI/ for the 0G side. The bulky proving keys are NOT committed here
+# — they're served from the app's static/ directory instead.
+src/managed/*
+!src/managed/kyc/
+src/managed/kyc/*
+!src/managed/kyc/contract/
